@@ -13,13 +13,14 @@ message(STATUS ${rclcpp_LIBARARIES}) #库文件和eclcpp依赖的库文件
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 add_executable(cpp_node src/cpp_node.cpp)
+add_executable(person_node src/person_node.cpp)
 
 find_package(rclcpp REQUIRED) #查找头文件和库文件
 
 ament_target_dependencies(cpp_node rclcpp) #将rclcpp的头文件和库文件链接到cpp_node
-
+ament_target_dependencies(person_node rclcpp) #将rclcpp的头文件和库文件链接到person_node
 install(TARGETS
-  cpp_node
+  cpp_node person_node
   DESTINATION lib/${PROJECT_NAME}
   )
 

@@ -210,6 +210,19 @@ cpp_node/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp_node.dir/build.make CMakeFiles/cpp_node.dir/build
 .PHONY : cpp_node/fast
 
+#=============================================================================
+# Target rules for targets named person_node
+
+# Build rule for target.
+person_node: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 person_node
+.PHONY : person_node
+
+# fast build rule for target.
+person_node/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/person_node.dir/build.make CMakeFiles/person_node.dir/build
+.PHONY : person_node/fast
+
 src/cpp_node.o: src/cpp_node.cpp.o
 .PHONY : src/cpp_node.o
 
@@ -234,6 +247,30 @@ src/cpp_node.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cpp_node.dir/build.make CMakeFiles/cpp_node.dir/src/cpp_node.cpp.s
 .PHONY : src/cpp_node.cpp.s
 
+src/person_node.o: src/person_node.cpp.o
+.PHONY : src/person_node.o
+
+# target to build an object file
+src/person_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/person_node.dir/build.make CMakeFiles/person_node.dir/src/person_node.cpp.o
+.PHONY : src/person_node.cpp.o
+
+src/person_node.i: src/person_node.cpp.i
+.PHONY : src/person_node.i
+
+# target to preprocess a source file
+src/person_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/person_node.dir/build.make CMakeFiles/person_node.dir/src/person_node.cpp.i
+.PHONY : src/person_node.cpp.i
+
+src/person_node.s: src/person_node.cpp.s
+.PHONY : src/person_node.s
+
+# target to generate assembly for a file
+src/person_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/person_node.dir/build.make CMakeFiles/person_node.dir/src/person_node.cpp.s
+.PHONY : src/person_node.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -250,9 +287,13 @@ help:
 	@echo "... demo_cpp_pkg_uninstall"
 	@echo "... uninstall"
 	@echo "... cpp_node"
+	@echo "... person_node"
 	@echo "... src/cpp_node.o"
 	@echo "... src/cpp_node.i"
 	@echo "... src/cpp_node.s"
+	@echo "... src/person_node.o"
+	@echo "... src/person_node.i"
+	@echo "... src/person_node.s"
 .PHONY : help
 
 
