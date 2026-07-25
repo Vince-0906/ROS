@@ -1,2 +1,0 @@
-[console_scripts]
-py_node = demo_py_pkg.py_node:main

@@ -7,13 +7,13 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/home/szc/222/demo_cpp_pkg/CMakeLists.txt"
+  "/home/szc/ROS/222/ws/src/demo_cpp_pkg/CMakeLists.txt"
   "CMakeFiles/3.28.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.28.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.28.3/CMakeSystem.cmake"
   "ament_cmake_core/package.cmake"
   "ament_cmake_package_templates/templates.cmake"
-  "/home/szc/222/demo_cpp_pkg/package.xml"
+  "/home/szc/ROS/222/ws/src/demo_cpp_pkg/package.xml"
   "/opt/ros/jazzy/lib/cmake/fastcdr/fastcdr-config-version.cmake"
   "/opt/ros/jazzy/lib/cmake/fastcdr/fastcdr-config.cmake"
   "/opt/ros/jazzy/lib/cmake/fastcdr/fastcdr-shared-targets-none.cmake"

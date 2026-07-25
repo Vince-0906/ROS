@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/szc/222/ws/src/demo_cpp_pkg
+CMAKE_SOURCE_DIR = /home/szc/ROS/222/ws/src/demo_cpp_pkg
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/szc/222/ws/build/demo_cpp_pkg
+CMAKE_BINARY_DIR = /home/szc/ROS/222/ws/build/demo_cpp_pkg
 
 # Utility rule file for uninstall.
 
@@ -78,6 +78,6 @@ CMakeFiles/uninstall.dir/clean:
 .PHONY : CMakeFiles/uninstall.dir/clean
 
 CMakeFiles/uninstall.dir/depend:
-	cd /home/szc/222/ws/build/demo_cpp_pkg && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/szc/222/ws/src/demo_cpp_pkg /home/szc/222/ws/src/demo_cpp_pkg /home/szc/222/ws/build/demo_cpp_pkg /home/szc/222/ws/build/demo_cpp_pkg /home/szc/222/ws/build/demo_cpp_pkg/CMakeFiles/uninstall.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/szc/ROS/222/ws/build/demo_cpp_pkg && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/szc/ROS/222/ws/src/demo_cpp_pkg /home/szc/ROS/222/ws/src/demo_cpp_pkg /home/szc/ROS/222/ws/build/demo_cpp_pkg /home/szc/ROS/222/ws/build/demo_cpp_pkg /home/szc/ROS/222/ws/build/demo_cpp_pkg/CMakeFiles/uninstall.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/uninstall.dir/depend
 
