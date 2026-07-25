@@ -1,4 +1,0 @@
-[console_scripts]
-coder_node = demo_py_pkg.coder_node:main
-person_node = demo_py_pkg.person_node:main
-py_node = demo_py_pkg.py_node:main

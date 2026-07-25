@@ -1,3 +1,0 @@
-/home/szc/111/CMakeFiles/learn_cmake.dir
-/home/szc/111/CMakeFiles/edit_cache.dir
-/home/szc/111/CMakeFiles/rebuild_cache.dir

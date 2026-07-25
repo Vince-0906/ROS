@@ -14,13 +14,18 @@ message(STATUS ${rclcpp_LIBARARIES}) #库文件和eclcpp依赖的库文件
 # find_package(<dependency> REQUIRED)
 add_executable(cpp_node src/cpp_node.cpp)
 add_executable(person_node src/person_node.cpp)
+add_executable(learn_auto src/learn_auto.cpp)
+add_executable(learn_shared_ptr src/learn_shared_ptr.cpp)
+add_executable(learn_lambda src/learn_lambda.cpp)
+add_executable(learn_functional src/learn_functional.cpp)
 
 find_package(rclcpp REQUIRED) #查找头文件和库文件
 
 ament_target_dependencies(cpp_node rclcpp) #将rclcpp的头文件和库文件链接到cpp_node
 ament_target_dependencies(person_node rclcpp) #将rclcpp的头文件和库文件链接到person_node
+
 install(TARGETS
-  cpp_node person_node
+  cpp_node person_node learn_auto learn_shared_ptr learn_lambda learn_functional
   DESTINATION lib/${PROJECT_NAME}
   )
 

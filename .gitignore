@@ -39,7 +39,8 @@ dist/
 *.log
 
 # IDE and editor files
-.vscode/
+.vscode/*
+!.vscode/c_cpp_properties.json
 .idea/
 *.swp
 *.swo
