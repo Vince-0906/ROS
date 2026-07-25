@@ -27,6 +27,7 @@ setup(
             'py_node = demo_py_pkg.py_node:main',
             'person_node = demo_py_pkg.person_node:main',
             'coder_node = demo_py_pkg.coder_node:main',
+            'learn_thread = demo_py_pkg.learn_thread:main',
         ],
     },
 )
