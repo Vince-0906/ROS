@@ -10,6 +10,8 @@ setup.py
 ../../build/demo_py_pkg/demo_py_pkg.egg-info/top_level.txt
 ../../build/demo_py_pkg/demo_py_pkg.egg-info/zip-safe
 demo_py_pkg/__init__.py
+demo_py_pkg/coder_node.py
+demo_py_pkg/person_node.py
 demo_py_pkg/py_node.py
 resource/demo_py_pkg
 test/test_copyright.py
