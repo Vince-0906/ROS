@@ -1,0 +1,36 @@
+running egg_info
+creating ../build/demo_py_pkg/demo_py_pkg.egg-info
+writing ../build/demo_py_pkg/demo_py_pkg.egg-info/PKG-INFO
+writing dependency_links to ../build/demo_py_pkg/demo_py_pkg.egg-info/dependency_links.txt
+writing entry points to ../build/demo_py_pkg/demo_py_pkg.egg-info/entry_points.txt
+writing requirements to ../build/demo_py_pkg/demo_py_pkg.egg-info/requires.txt
+writing top-level names to ../build/demo_py_pkg/demo_py_pkg.egg-info/top_level.txt
+writing manifest file '../build/demo_py_pkg/demo_py_pkg.egg-info/SOURCES.txt'
+reading manifest file '../build/demo_py_pkg/demo_py_pkg.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file '../build/demo_py_pkg/demo_py_pkg.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/szc/222/build/demo_py_pkg/build
+creating /home/szc/222/build/demo_py_pkg/build/lib
+creating /home/szc/222/build/demo_py_pkg/build/lib/demo_py_pkg
+copying demo_py_pkg/__init__.py -> /home/szc/222/build/demo_py_pkg/build/lib/demo_py_pkg
+copying demo_py_pkg/py_node.py -> /home/szc/222/build/demo_py_pkg/build/lib/demo_py_pkg
+running install
+running install_lib
+creating /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg
+copying /home/szc/222/build/demo_py_pkg/build/lib/demo_py_pkg/__init__.py -> /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg
+copying /home/szc/222/build/demo_py_pkg/build/lib/demo_py_pkg/py_node.py -> /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg
+byte-compiling /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg/__init__.py to __init__.cpython-312.pyc
+byte-compiling /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg/py_node.py to py_node.cpython-312.pyc
+running install_data
+creating /home/szc/222/install/demo_py_pkg/share/ament_index
+creating /home/szc/222/install/demo_py_pkg/share/ament_index/resource_index
+creating /home/szc/222/install/demo_py_pkg/share/ament_index/resource_index/packages
+copying resource/demo_py_pkg -> /home/szc/222/install/demo_py_pkg/share/ament_index/resource_index/packages
+copying package.xml -> /home/szc/222/install/demo_py_pkg/share/demo_py_pkg
+running install_egg_info
+Copying ../build/demo_py_pkg/demo_py_pkg.egg-info to /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg-0.0.0-py3.12.egg-info
+running install_scripts
+Installing py_node script to /home/szc/222/install/demo_py_pkg/lib/demo_py_pkg
+writing list of installed files to '/home/szc/222/build/demo_py_pkg/install.log'

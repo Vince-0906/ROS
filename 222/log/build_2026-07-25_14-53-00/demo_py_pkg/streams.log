@@ -1,0 +1,22 @@
+[0.512s] Invoking command in '/home/szc/222/demo_py_pkg': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/szc/222/build/demo_py_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/demo_py_pkg build --build-base /home/szc/222/build/demo_py_pkg/build install --record /home/szc/222/build/demo_py_pkg/install.log --install-scripts $base/lib/demo_py_pkg --single-version-externally-managed install_data
+[0.663s] running egg_info
+[0.673s] writing ../build/demo_py_pkg/demo_py_pkg.egg-info/PKG-INFO
+[0.674s] writing dependency_links to ../build/demo_py_pkg/demo_py_pkg.egg-info/dependency_links.txt
+[0.674s] writing entry points to ../build/demo_py_pkg/demo_py_pkg.egg-info/entry_points.txt
+[0.674s] writing requirements to ../build/demo_py_pkg/demo_py_pkg.egg-info/requires.txt
+[0.674s] writing top-level names to ../build/demo_py_pkg/demo_py_pkg.egg-info/top_level.txt
+[0.696s] reading manifest file '../build/demo_py_pkg/demo_py_pkg.egg-info/SOURCES.txt'
+[0.696s] adding license file 'LICENSE'
+[0.697s] writing manifest file '../build/demo_py_pkg/demo_py_pkg.egg-info/SOURCES.txt'
+[0.697s] running build
+[0.697s] running build_py
+[0.697s] running install
+[0.701s] running install_lib
+[0.713s] running install_data
+[0.713s] running install_egg_info
+[0.724s] removing '/home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg-0.0.0-py3.12.egg-info' (and everything under it)
+[0.724s] Copying ../build/demo_py_pkg/demo_py_pkg.egg-info to /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg-0.0.0-py3.12.egg-info
+[0.725s] running install_scripts
+[0.809s] Installing py_node script to /home/szc/222/install/demo_py_pkg/lib/demo_py_pkg
+[0.810s] writing list of installed files to '/home/szc/222/build/demo_py_pkg/install.log'
+[0.834s] Invoked command in '/home/szc/222/demo_py_pkg' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/szc/222/build/demo_py_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/demo_py_pkg build --build-base /home/szc/222/build/demo_py_pkg/build install --record /home/szc/222/build/demo_py_pkg/install.log --install-scripts $base/lib/demo_py_pkg --single-version-externally-managed install_data

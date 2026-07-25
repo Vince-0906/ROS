@@ -1,0 +1,67 @@
+[0.013s] Invoking command in '/home/szc/222/ws/build/demo_cpp_pkg': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/szc/222/install/demo_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/szc/222/ws/src/demo_cpp_pkg -DCMAKE_INSTALL_PREFIX=/home/szc/222/ws/install/demo_cpp_pkg
+[0.065s] -- The C compiler identification is GNU 13.3.0
+[0.139s] -- The CXX compiler identification is GNU 13.3.0
+[0.155s] -- Detecting C compiler ABI info
+[0.236s] -- Detecting C compiler ABI info - done
+[0.241s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.241s] -- Detecting C compile features
+[0.242s] -- Detecting C compile features - done
+[0.251s] -- Detecting CXX compiler ABI info
+[0.331s] -- Detecting CXX compiler ABI info - done
+[0.337s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.337s] -- Detecting CXX compile features
+[0.338s] -- Detecting CXX compile features - done
+[0.342s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.447s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.523s] -- 
+[0.523s] -- 
+[0.523s] -- Found rclcpp: 28.1.21 (/opt/ros/jazzy/share/rclcpp/cmake)
+[0.551s] -- Found rosidl_generator_c: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[0.561s] -- Found rosidl_generator_cpp: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[0.572s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.585s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.636s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[0.638s] -- Found rmw_fastrtps_cpp: 8.4.4 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[0.705s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+[0.720s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+[0.738s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.790s] -- Found ament_lint_auto: 0.17.5 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[0.872s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[0.872s] -- Configured cppcheck include dirs: 
+[0.872s] -- Configured cppcheck exclude dirs and/or files: 
+[0.874s] -- Added test 'flake8' to check Python code syntax and style conventions
+[0.874s] -- Configured 'flake8' exclude dirs and/or files: 
+[0.877s] -- Added test 'lint_cmake' to check CMake code style
+[0.878s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[0.888s] -- Added test 'uncrustify' to check C / C++ code style
+[0.888s] -- Configured uncrustify additional arguments: 
+[0.890s] -- Added test 'xmllint' to check XML markup files
+[0.891s] -- Configuring done (0.9s)
+[0.899s] -- Generating done (0.0s)
+[0.901s] -- Build files have been written to: /home/szc/222/ws/build/demo_cpp_pkg
+[0.908s] Invoked command in '/home/szc/222/ws/build/demo_cpp_pkg' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/szc/222/install/demo_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/szc/222/ws/src/demo_cpp_pkg -DCMAKE_INSTALL_PREFIX=/home/szc/222/ws/install/demo_cpp_pkg
+[0.909s] Invoking command in '/home/szc/222/ws/build/demo_cpp_pkg': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/szc/222/install/demo_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/szc/222/ws/build/demo_cpp_pkg -- -j8 -l8
+[0.950s] [ 50%] [32mBuilding CXX object CMakeFiles/cpp_node.dir/src/cpp_node.cpp.o[0m
+[2.958s] [100%] [32m[1mLinking CXX executable cpp_node[0m
+[3.047s] [100%] Built target cpp_node
+[3.056s] Invoked command in '/home/szc/222/ws/build/demo_cpp_pkg' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/szc/222/install/demo_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/szc/222/ws/build/demo_cpp_pkg -- -j8 -l8
+[3.064s] Invoking command in '/home/szc/222/ws/build/demo_cpp_pkg': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/szc/222/install/demo_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/szc/222/ws/build/demo_cpp_pkg
+[3.070s] -- Install configuration: ""
+[3.070s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/lib/demo_cpp_pkg/cpp_node
+[3.071s] -- Set non-toolchain portion of runtime path of "/home/szc/222/ws/install/demo_cpp_pkg/lib/demo_cpp_pkg/cpp_node" to ""
+[3.071s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/ament_index/resource_index/package_run_dependencies/demo_cpp_pkg
+[3.072s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/ament_index/resource_index/parent_prefix_path/demo_cpp_pkg
+[3.072s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/environment/ament_prefix_path.sh
+[3.072s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/environment/ament_prefix_path.dsv
+[3.072s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/environment/path.sh
+[3.073s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/environment/path.dsv
+[3.073s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/local_setup.bash
+[3.073s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/local_setup.sh
+[3.073s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/local_setup.zsh
+[3.073s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/local_setup.dsv
+[3.074s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/package.dsv
+[3.074s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/ament_index/resource_index/packages/demo_cpp_pkg
+[3.074s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/cmake/demo_cpp_pkgConfig.cmake
+[3.074s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/cmake/demo_cpp_pkgConfig-version.cmake
+[3.075s] -- Installing: /home/szc/222/ws/install/demo_cpp_pkg/share/demo_cpp_pkg/package.xml
+[3.075s] Invoked command in '/home/szc/222/ws/build/demo_cpp_pkg' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/szc/222/install/demo_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/szc/222/ws/build/demo_cpp_pkg

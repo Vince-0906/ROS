@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.8)
+project(node_cpp)
+add_executable(node node.cpp)
+
+find_package(rclcpp REQUIRED) #查找头文件和库文件
+message(STATUS ${rclcpp_INCLUDE_DIRS}) #头文件及rclcpp依赖的头文件
+message(STATUS ${rclcpp_LIBARARIES}) #库文件和eclcpp依赖的库文件
+
+target_include_directories(node PUBLIC ${rclcpp_INCLUDE_DIRS}) #头文件包含
+target_link_libraries(node ${rclcpp_LIBRARIES}) #库文件包含

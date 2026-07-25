@@ -1,0 +1,38 @@
+[0.659s] Invoking command in '/home/szc/222/demo_py_pkg': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/szc/222/build/demo_py_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/demo_py_pkg build --build-base /home/szc/222/build/demo_py_pkg/build install --record /home/szc/222/build/demo_py_pkg/install.log --install-scripts $base/lib/demo_py_pkg --single-version-externally-managed install_data
+[0.815s] running egg_info
+[0.816s] creating ../build/demo_py_pkg/demo_py_pkg.egg-info
+[0.826s] writing ../build/demo_py_pkg/demo_py_pkg.egg-info/PKG-INFO
+[0.826s] writing dependency_links to ../build/demo_py_pkg/demo_py_pkg.egg-info/dependency_links.txt
+[0.826s] writing entry points to ../build/demo_py_pkg/demo_py_pkg.egg-info/entry_points.txt
+[0.826s] writing requirements to ../build/demo_py_pkg/demo_py_pkg.egg-info/requires.txt
+[0.826s] writing top-level names to ../build/demo_py_pkg/demo_py_pkg.egg-info/top_level.txt
+[0.826s] writing manifest file '../build/demo_py_pkg/demo_py_pkg.egg-info/SOURCES.txt'
+[0.848s] reading manifest file '../build/demo_py_pkg/demo_py_pkg.egg-info/SOURCES.txt'
+[0.848s] adding license file 'LICENSE'
+[0.849s] writing manifest file '../build/demo_py_pkg/demo_py_pkg.egg-info/SOURCES.txt'
+[0.849s] running build
+[0.849s] running build_py
+[0.849s] creating /home/szc/222/build/demo_py_pkg/build
+[0.849s] creating /home/szc/222/build/demo_py_pkg/build/lib
+[0.849s] creating /home/szc/222/build/demo_py_pkg/build/lib/demo_py_pkg
+[0.849s] copying demo_py_pkg/__init__.py -> /home/szc/222/build/demo_py_pkg/build/lib/demo_py_pkg
+[0.849s] copying demo_py_pkg/py_node.py -> /home/szc/222/build/demo_py_pkg/build/lib/demo_py_pkg
+[0.850s] running install
+[0.855s] running install_lib
+[0.865s] creating /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg
+[0.865s] copying /home/szc/222/build/demo_py_pkg/build/lib/demo_py_pkg/__init__.py -> /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg
+[0.865s] copying /home/szc/222/build/demo_py_pkg/build/lib/demo_py_pkg/py_node.py -> /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg
+[0.865s] byte-compiling /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg/__init__.py to __init__.cpython-312.pyc
+[0.866s] byte-compiling /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg/py_node.py to py_node.cpython-312.pyc
+[0.866s] running install_data
+[0.866s] creating /home/szc/222/install/demo_py_pkg/share/ament_index
+[0.866s] creating /home/szc/222/install/demo_py_pkg/share/ament_index/resource_index
+[0.866s] creating /home/szc/222/install/demo_py_pkg/share/ament_index/resource_index/packages
+[0.866s] copying resource/demo_py_pkg -> /home/szc/222/install/demo_py_pkg/share/ament_index/resource_index/packages
+[0.866s] copying package.xml -> /home/szc/222/install/demo_py_pkg/share/demo_py_pkg
+[0.866s] running install_egg_info
+[0.877s] Copying ../build/demo_py_pkg/demo_py_pkg.egg-info to /home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages/demo_py_pkg-0.0.0-py3.12.egg-info
+[0.878s] running install_scripts
+[0.952s] Installing py_node script to /home/szc/222/install/demo_py_pkg/lib/demo_py_pkg
+[0.952s] writing list of installed files to '/home/szc/222/build/demo_py_pkg/install.log'
+[0.970s] Invoked command in '/home/szc/222/demo_py_pkg' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/szc/222/build/demo_py_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/szc/222/install/demo_py_pkg/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/demo_py_pkg build --build-base /home/szc/222/build/demo_py_pkg/build install --record /home/szc/222/build/demo_py_pkg/install.log --install-scripts $base/lib/demo_py_pkg --single-version-externally-managed install_data
