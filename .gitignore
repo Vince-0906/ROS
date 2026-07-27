@@ -35,6 +35,10 @@ __pycache__/
 dist/
 .Python
 
+# Environment variables
+.env
+.env.local
+
 # Logs
 *.log
 
