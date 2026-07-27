@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'cemo_py_topic'
+package_name = 'demo_py_topic'
 
 setup(
     name=package_name,
@@ -24,7 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            "novel_pub_node = cemo_py_topic.novel_pub_node:main",
+            "novel_pub_node = demo_py_topic.novel_pub_node:main",
+            "novel_sub_node = demo_py_topic.novel_sub_node:main",
         ],
     },
 )
