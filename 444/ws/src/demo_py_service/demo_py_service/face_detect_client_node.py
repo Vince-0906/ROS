@@ -79,6 +79,7 @@ class FaceDetectClientNode(Node):
             self.get_logger().info(f'接收到相应，共：{response.number}张人脸，耗时：{response.use_time:.4f}秒')
             #self.show_response(response)
         future.add_done_callback(result_callback)
+        return future # 返回future对象，供外部使用rclpy.spin_until_future_complete()等待服务端处理完成
 
         # while not future.done():
             # time.sleep(1.0) # 休眠线程，等待服务端处理完成，造成当前线程无法再接受来自服务端的响应结果，导致永远无法获取响应结果，即future.done()永远为False
@@ -103,8 +104,10 @@ def main():
     rclpy.init()
     node = FaceDetectClientNode()
     node.update_detect_model('cnn') # cnn
-    node.send_request()
+    future = node.send_request()
+    rclpy.spin_until_future_complete(node, future)
     node.update_detect_model('hog') # hog
-    node.send_request()
+    future = node.send_request()
+    rclpy.spin_until_future_complete(node, future)
     rclpy.spin(node)
     rclpy.shutdown()
