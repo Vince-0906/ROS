@@ -1,0 +1,62 @@
+#include <rclcpp/rclcpp.hpp>
+#include <chapt4_interfaces/srv/patrol.hpp>
+#include <chrono>
+#include <ctime>
+
+using Patrol = chapt4_interfaces::srv::Patrol;
+using namespace std::chrono_literals;
+
+class PatrolClient: public rclcpp::Node
+{
+    private:
+        rclcpp::TimerBase::SharedPtr timer_;
+        rclcpp::Client<Patrol>::SharedPtr patrol_client_;
+
+    public:
+        PatrolClient(const std::string &node_name): Node(node_name)
+        {
+            srand(time(NULL));//初始化随机数种子
+            patrol_client_ =this ->create_client<Patrol>("patrol");
+            timer_ =this->create_wall_timer(5s,[&]()->void{
+                // 1.检测服务是否可用
+                while(!this->patrol_client_->wait_for_service(1s))
+                {
+                    if(!rclcpp::ok()){
+                        RCLCPP_ERROR(this->get_logger(),"等到服务上线中,rclcpp死了");
+                        return;
+                    }
+                    RCLCPP_INFO(this->get_logger(),"等待服务上线中...");
+                }
+
+                // 2.创建请求对象
+                auto request =std::make_shared<Patrol::Request>();
+                request->target_x=rand()%15;
+                request->target_y=rand()%15;
+                RCLCPP_INFO(this->get_logger(),"准备好目标点,x=%f,y=%f",request->target_x,request->target_y);
+
+                // 3.发送请求
+                this->patrol_client_->async_send_request(request,[&](rclcpp::Client<Patrol>::SharedFuture result_future)->void{
+                    auto response =result_future.get();
+                    if(response->result==Patrol::Response::SUCCESS)
+                    {
+                        RCLCPP_INFO(this->get_logger(),"服务调用成功,正在巡逻");
+                    }
+                    if(response->result==Patrol::Response::FAIL)
+                    {
+                        RCLCPP_ERROR(this->get_logger(),"服务调用失败,目标点不合法");
+                    }
+                });
+            });
+            
+        }
+
+
+};
+int main(int argc, char *argv[])
+{
+    rclcpp::init(argc, argv);
+    auto node= std::make_shared<PatrolClient>("patrol_client");
+    rclcpp::spin(node);
+    rclcpp::shutdown();
+    return 0;
+}
