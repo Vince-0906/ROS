@@ -7,6 +7,7 @@ from ament_index_python.packages import get_package_share_directory # 获取功�
 import os
 from cv_bridge import CvBridge
 import time
+from rcl_interfaces.msg import SetParametersResult
 
 class FaceDetectNode(Node):
     def __init__(self):
@@ -22,8 +23,16 @@ class FaceDetectNode(Node):
         # self.model = 'hog'
         self.default_image_path = os.path.join(get_package_share_directory('demo_py_service'), 'resource', 'default.jpeg')
         self.get_logger().info('人脸检测服务已启动，等待请求...')
+        self.add_on_set_parameters_callback(self.parameters_callback)
 
-
+    def parameters_callback(self,parameters):
+        for paramter in parameters:
+            self.get_logger().info('参数已更新，参数名：%s,参数值：%s'%(paramter.name,paramter.value))
+            if paramter.name == 'number_of_times_to_upsample':
+                self.number_of_times_to_upsample = paramter.value
+            if paramter.name == 'model':
+                self.model = paramter.value
+        return SetParametersResult(successful=True)
 
 
     def detect_face_callback(self,request,response):
