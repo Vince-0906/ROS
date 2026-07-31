@@ -13,8 +13,13 @@ class FaceDetectNode(Node):
         super().__init__('face_detect_node')
         self.service_ = self.create_service(FaceDetector,'face_detect',self.detect_face_callback)
         self.brige = CvBridge()
-        self.number_of_times_to_upsample = 1
-        self.model = 'hog'
+        self.declare_parameter("number_of_times_to_upsample",1)
+        self.declare_parameter("model",'hog')
+        self.number_of_times_to_upsample = self.get_parameter('number_of_times_to_upsample').value
+        self.model = self.get_parameter('model').value
+
+        # self.number_of_times_to_upsample = 1
+        # self.model = 'hog'
         self.default_image_path = os.path.join(get_package_share_directory('demo_py_service'), 'resource', 'default.jpeg')
         self.get_logger().info('人脸检测服务已启动，等待请求...')
 
