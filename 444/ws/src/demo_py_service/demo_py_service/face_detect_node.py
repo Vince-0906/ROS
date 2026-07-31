@@ -24,6 +24,8 @@ class FaceDetectNode(Node):
         self.default_image_path = os.path.join(get_package_share_directory('demo_py_service'), 'resource', 'default.jpeg')
         self.get_logger().info('人脸检测服务已启动，等待请求...')
         self.add_on_set_parameters_callback(self.parameters_callback)
+        # 设置自身节点参数的方法
+        # self.set_parameters([rclpy.Parameter('model',rclpy.Parameter.Type.STRING,'cnn')])
 
     def parameters_callback(self,parameters):
         for paramter in parameters:
