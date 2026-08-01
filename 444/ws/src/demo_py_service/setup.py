@@ -12,6 +12,7 @@ setup(
         ('share/' + package_name, ['package.xml']),
         ('share/' + package_name+"/resource", ['resource/default.jpeg']),
 
+
     ],
     install_requires=['setuptools'],
     zip_safe=True,
