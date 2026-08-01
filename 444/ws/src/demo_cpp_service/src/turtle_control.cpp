@@ -3,8 +3,11 @@
 #include <chrono>
 #include <turtlesim/msg/pose.hpp>
 #include <chapt4_interfaces/srv/patrol.hpp>
+#include <rcl_interfaces/msg/set_parameters_result.hpp>
+
 
 using Patrol = chapt4_interfaces::srv::Patrol;
+using SetParametersResult = rcl_interfaces::msg::SetParametersResult;
 
 
 using namespace std::chrono_literals;
@@ -12,6 +15,7 @@ using namespace std::chrono_literals;
 class TurtleControl: public rclcpp::Node
 {
     private:
+        OnSetParametersCallbackHandle::SharedPtr parameter_callback_handle_;
         rclcpp::Service<Patrol>::SharedPtr patrol_service_;
         rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;//发布者的共享指针
         rclcpp::Subscription<turtlesim::msg::Pose>::SharedPtr subscriber_;//订阅者的共享指针
@@ -25,6 +29,27 @@ class TurtleControl: public rclcpp::Node
 
         TurtleControl(const std::string &node_name): Node(node_name)
         {
+            this->declare_parameter("k",1.0);
+            this->declare_parameter("max_speed",1.0);
+            this->get_parameter("k",k_);
+            this->get_parameter("max_speed",max_speed_);
+            // this->set_parameter(rclcpp::Parameter("k", 2.0)); // 改变自身的参数值
+            parameter_callback_handle_ = this->add_on_set_parameters_callback([&](const std::vector<rclcpp::Parameter> & parameters)->rcl_interfaces::msg::SetParametersResult{
+            rcl_interfaces::msg::SetParametersResult result;
+            result.successful = true;
+            for (const auto & parameter : parameters) {
+                RCLCPP_INFO(this->get_logger(), "更新参数的值%s=%f", parameter.get_name().c_str(), parameter.as_double());
+                if (parameter.get_name()=="k") {
+                    k_= parameter.as_double();
+
+                }
+                if (parameter.get_name()=="max_speed") {
+                    max_speed_= parameter.as_double();
+                }
+     }
+     return result;
+    }
+ );
             patrol_service_ =this->create_service<Patrol>("patrol",[&](const Patrol::Request::SharedPtr request,Patrol::Response::SharedPtr response)->void {
             if((0<request->target_x&&request->target_x<12.0f)&&(0<request->target_y&&request->target_y<12.0f))
             {
@@ -35,6 +60,8 @@ class TurtleControl: public rclcpp::Node
             else {
             response->result = Patrol::Response::FAIL;
             }
+            // 额外调用我们添加的回调函数，做到第一时间更新参数
+            
         });
 
             publisher_= this->create_publisher<geometry_msgs::msg::Twist>("turtle1/cmd_vel", 10);
