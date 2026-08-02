@@ -13,7 +13,11 @@ find_package(geometry_msgs REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
 add_executable(static_tf_broadcaster src/static_tf_broadcaster.cpp)
+add_executable(dynamic_tf_broadcaster src/dynamic_tf_broadcaster.cpp)
+
 ament_target_dependencies(static_tf_broadcaster rclcpp tf2_ros geometry_msgs tf2_geometry_msgs)
+ament_target_dependencies(dynamic_tf_broadcaster rclcpp tf2_ros geometry_msgs tf2_geometry_msgs)
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -29,6 +33,7 @@ endif()
 
 install(TARGETS
   static_tf_broadcaster
+  dynamic_tf_broadcaster
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

@@ -1,0 +1,50 @@
+#include <rclcpp/rclcpp.hpp>
+#include <geometry_msgs/msg/transform_stamped.hpp> //提供geometry_msgs消息接口
+#include <tf2/LinearMath/Quaternion.h> //提供tf2类
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp> //提供tf2和geometry_msgs之间的转换接口
+#include <tf2_ros/transform_broadcaster.h> //变换广播器接口
+#include <chrono> //提供时间接口
+
+using namespace std::chrono_literals; //使用命名空间，方便使用时间单位
+
+class TfBroadcaster : public rclcpp::Node
+{
+    private:
+    std::shared_ptr<tf2_ros::TransformBroadcaster> broadcaster_; //变换广播器对象
+    rclcpp::TimerBase::SharedPtr timer_; //定时器对象
+
+    public:
+    TfBroadcaster():Node("tf_broadcaster")
+    {
+        broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this); //创建变换广播器对象
+        timer_ = this->create_wall_timer(500ms, std::bind(&TfBroadcaster::publish_tf, this)); //创建定时器对象，每隔500ms调用一次publish_tf函数
+
+
+    };
+
+    void publish_tf()
+    {
+        geometry_msgs::msg::TransformStamped transform;
+        transform.header.stamp = this->get_clock()->now(); //获取当前时间
+        transform.header.frame_id = "map"; //设置父坐标系
+        transform.child_frame_id = "base_link"; //设置子坐标系
+        transform.transform.translation.x = 2.0; //设置平移量
+        transform.transform.translation.y = 3.0;
+        transform.transform.translation.z = 0.0;
+
+        tf2::Quaternion q; //创建四元数对象
+        q.setRPY(0.0,0.0,30*M_PI/180.0); //设置欧拉角，单位为弧度
+        transform.transform.rotation = tf2::toMsg(q); //将四元数转换为geometry_msgs消息类型
+        this->broadcaster_->sendTransform(transform); //发送变换消息
+
+    }
+};
+
+int main(int argc, char * argv[])
+{
+    rclcpp::init(argc, argv); //初始化ROS2客户端库
+    auto node = std::make_shared<TfBroadcaster>();
+    rclcpp::spin(node); //循环等待回调函数执行
+    rclcpp::shutdown(); //关闭ROS2客户端库
+    return 0;
+}
