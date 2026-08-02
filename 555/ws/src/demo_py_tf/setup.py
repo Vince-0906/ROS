@@ -26,6 +26,7 @@ setup(
         'console_scripts': [
             'static_tf_broadcast = demo_py_tf.static_tf_broadcast:main',
             'dynamic_tf_broadcast = demo_py_tf.dynamic_tf_broadcaster:main',
+            'tf_listener = demo_py_tf.tf_listener:main',
         ],
     },
 )
