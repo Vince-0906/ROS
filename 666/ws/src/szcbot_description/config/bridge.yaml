@@ -12,14 +12,14 @@
   ros_type_name: "geometry_msgs/msg/Twist"
   gz_type_name: "gz.msgs.Twist"
 
-# 激光雷达扫描数据：从 Gazebo 到 ROS 2（当前机器人未配置激光雷达）
+# 激光雷达扫描数据：从 Gazebo 到 ROS 2
 - ros_topic_name: "scan"
   gz_topic_name: "/lidar"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "gz.msgs.LaserScan"
   direction: "GZ_TO_ROS"
 
-# 激光雷达点云数据：从 Gazebo 到 ROS 2（当前机器人未配置激光雷达）
+# 激光雷达点云数据：从 Gazebo 到 ROS 2
 - ros_topic_name: "points"
   gz_topic_name: "/lidar/points"
   ros_type_name: "sensor_msgs/msg/PointCloud2"

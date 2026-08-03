@@ -1,30 +1,125 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Gazebo传感器插件宏定义 -->
     <xacro:macro name="gazebo_sensor_plugin">
+        <!-- 激光雷达传感器配置 -->
         <gazebo reference="laser_link">
+            <!-- GPU加速的激光雷达传感器 -->
             <sensor name="gpu_lidar" type="gpu_lidar">
+                <!-- 发布话题名称 -->
                 <topic>lidar</topic>
-                <update_rate>10</update_rate>
+                <!-- 更新频率 100Hz -->
+                <update_rate>100</update_rate>
                 <lidar>
                     <!-- 设置扫描范围 -->
                     <scan>
-                        <!-- 描述水平扫描范围 描述雷达扫描一圈的采样光束数量 分辨率和samples一起决定实际采样点数量
-                        起始扫描角度 终止扫描角度 vertical 描述竖直扫描范围，字段同horizontal -->
+                        <!-- 描述水平扫描范围 -->
                         <horizontal>
+                            <!-- 每圈采样光束数量 -->
                             <samples>360</samples>
+                            <!-- 分辨率，与samples一起决定实际采样点数量 -->
                             <resolution>1.000000</resolution>
+                            <!-- 起始扫描角度 (弧度) -->
                             <min_angle>0.000000</min_angle>
+                            <!-- 终止扫描角度 (弧度，约等于2π) -->
                             <max_angle>6.283100</max_angle>
                         </horizontal>
                     </scan>
                     <!-- 设置扫描距离 -->
                     <range>
+                        <!-- 最小检测距离 (米) -->
                         <min>0.080000</min>
+                        <!-- 最大检测距离 (米) -->
                         <max>10.0</max>
+                        <!-- 距离分辨率 (米) -->
                         <resolution>0.010000</resolution>
                     </range>
                 </lidar>
+                <!-- 是否在Gazebo中可视化激光束 -->
                 <visualize>true</visualize>
+            </sensor>
+        </gazebo>
+
+        <!-- IMU惯性测量单元传感器配置 -->
+        <gazebo reference="imu_link">
+            <!-- IMU传感器定义 -->
+            <sensor name="imu_sensor" type="imu">
+                <!-- 发布话题名称 -->
+                <topic>imu</topic>
+                <!-- 更新频率 100Hz -->
+                <update_rate>100</update_rate>
+                <!-- 始终保持开启状态 -->
+                <always_on>1</always_on>
+                <!-- 是否在Gazebo中可视化 -->
+                <visualize>true</visualize>
+                <!-- 六轴噪声设置 -->
+                <imu>
+                    <!-- 角速度传感器噪声配置 (陀螺仪) -->
+                    <angular_velocity>
+                        <!-- X轴角速度噪声 -->
+                        <x>
+                            <!-- 高斯噪声模型 -->
+                            <noise type="gaussian">
+                                <!-- 噪声均值 -->
+                                <mean>0.0</mean>
+                                <!-- 噪声标准差 -->
+                                <stddev>2e-4</stddev>
+                                <!-- 偏差均值 -->
+                                <bias_mean>0.0000075</bias_mean>
+                                <!-- 偏差标准差 -->
+                                <bias_stddev>0.0000008</bias_stddev>
+                            </noise>
+                        </x>
+                        <!-- Y轴角速度噪声 -->
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0.0</mean>
+                                <stddev>2e-4</stddev>
+                                <bias_mean>0.0000075</bias_mean>
+                                <bias_stddev>0.0000008</bias_stddev>
+                            </noise>
+                        </y>
+                        <!-- Z轴角速度噪声 -->
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0.0</mean>
+                                <stddev>2e-4</stddev>
+                                <bias_mean>0.0000075</bias_mean>
+                                <bias_stddev>0.0000008</bias_stddev>
+                            </noise>
+                        </z>
+                    </angular_velocity>
+                    <!-- 线性加速度传感器噪声配置 (加速度计) -->
+                    <linear_acceleration>
+                        <!-- X轴线性加速度噪声 -->
+                        <x>
+                            <noise type="gaussian">
+                                <mean>0.0</mean>
+                                <stddev>1.7e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                            </noise>
+                        </x>
+                        <!-- Y轴线性加速度噪声 -->
+                        <y>
+                            <noise type="gaussian">
+                                <mean>0.0</mean>
+                                <stddev>1.7e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                            </noise>
+                        </y>
+                        <!-- Z轴线性加速度噪声 -->
+                        <z>
+                            <noise type="gaussian">
+                                <mean>0.0</mean>
+                                <stddev>1.7e-2</stddev>
+                                <bias_mean>0.1</bias_mean>
+                                <bias_stddev>0.001</bias_stddev>
+                            </noise>
+                        </z>
+                    </linear_acceleration>
+                </imu>
             </sensor>
         </gazebo>
    </xacro:macro>

@@ -76,6 +76,20 @@ def generate_launch_description():
         name='lidar_frame_publisher',
         arguments=['0', '0', '0', '0', '0', '0', 'laser_link', 'szcbot/base_footprint/gpu_lidar']
     )
+    # 静态坐标变换：将 Gazebo 的 frame_id 映射到 imu_link
+    action_static_tf = launch_ros.actions.Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='lidar_frame_publisher',
+        arguments=['0', '0', '0', '0', '0', '0', 'imu_link', 'szcbot/base_footprint/imu_sensor']
+    )
+    # 静态坐标变换：将 Gazebo 的 frame_id 映射到 camera_link
+    action_static_tf = launch_ros.actions.Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='lidar_frame_publisher',
+        arguments=['0', '0', '0', '0', '0', '0', 'camera_link', 'szcbot/base_footprint/camera']
+    )
 
     return launch.LaunchDescription([
         action_declare_arg_model_path,
