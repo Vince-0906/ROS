@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="szcbot_robot">
+<!-- 身体 -->
+<xacro:include filename="$(find szcbot_description)/urdf/szcbot/base.urdf.xacro"/>
+<!-- 传感器 -->
+<xacro:include filename="$(find szcbot_description)/urdf/szcbot/sensor/laser.urdf.xacro"/>
+<xacro:include filename="$(find szcbot_description)/urdf/szcbot/sensor/imu.urdf.xacro"/>
+<xacro:include filename="$(find szcbot_description)/urdf/szcbot/sensor/camera.urdf.xacro"/>
+
+<xacro:base_xacro length="0.12" radius="0.10"/>
+<xacro:imu_xacro xyz="0.0 0.0 0.02"/>
+<xacro:camera_xacro xyz="0.10 0.0 0.075"/>
+<xacro:laser_xacro  xyz="0.00 0.0 0.11"/>
+
+
+</robot>

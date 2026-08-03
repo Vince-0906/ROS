@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <!-- 机器人的摄像头部件 -->
+        <xacro:macro name="camera_xacro" params="xyz">
+        <link name="camera_link">
+        <!-- 部件的外观描述 -->
+        <visual>
+        <!-- 沿着自己几何中心的偏移和旋转 -->
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <!-- 几何形状 -->
+            <geometry>
+                <box size="0.02 0.10 0.02"/>
+            </geometry>
+            <!-- 材质和颜色 -->
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 0.5"/>
+            </material>
+        </visual>
+    </link>
+        <!-- 机器人的关节，用于组合各个部件 -->
+    <joint name="camera_joint" type="fixed">
+        <!-- 关节的父部件 -->
+        <parent link="base_link"/>
+        <!-- 关节的子部件 -->
+        <child link="camera_link"/>
+        <!-- 关节的偏移和旋转 -->
+        <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>
+    </joint>
+    </xacro:macro>
+
+</robot>
