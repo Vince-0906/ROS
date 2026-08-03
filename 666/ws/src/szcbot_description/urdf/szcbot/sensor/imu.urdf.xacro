@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find szcbot_description)/urdf/szcbot/common_inertia.xacro"/>
 
     <!-- 机器人的IMU部件，惯性测量传感器 -->
         <xacro:macro name="imu_xacro" params="xyz">
@@ -31,6 +32,8 @@
                 <color rgba="0.0 0.0 0.0 0.5"/>
             </material>
         </collision>
+        <xacro:box_inertia m="0.05" w="0.02" h="0.02" d="0.02" />
+
     </link>
         <!-- 机器人的关节，用于组合各个部件 -->
     <joint name="imu_joint" type="fixed">

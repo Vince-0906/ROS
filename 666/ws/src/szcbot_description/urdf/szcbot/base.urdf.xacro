@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find szcbot_description)/urdf/szcbot/common_inertia.xacro"/>
 
     <xacro:macro name="base_xacro" params="length radius">
     <link name="base_footprint"/>
@@ -34,6 +35,9 @@
                 <color rgba="1.0 1.0 1.0 0.5"/>
             </material>
         </collision>
+
+        <!-- 机器人的惯性描述 -->
+        <xacro:cylinder_inertia m="1.0" r="${radius}" h="${length}" />
     </link>
     <joint name="base_joint" type="fixed">
         <!-- 关节的父部件 -->

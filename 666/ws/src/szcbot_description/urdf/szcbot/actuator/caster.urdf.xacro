@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find szcbot_description)/urdf/szcbot/common_inertia.xacro"/>
 
 
     <!-- 机器人的轮子部件 -->
@@ -30,6 +31,7 @@
                 <color rgba="1.0 1.0 0.0 0.85"/>
             </material>
         </collision>
+        <xacro:sphere_inertia m="0.05" r="0.016" />
     </link>
         <!-- 机器人的关节，用于组合各个部件 -->
     <joint name="${caster_name}_joint" type="fixed">
