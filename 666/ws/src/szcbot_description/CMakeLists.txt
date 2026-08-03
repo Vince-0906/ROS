@@ -22,7 +22,7 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
-install(DIRECTORY launch config urdf
+install(DIRECTORY launch config urdf world
   DESTINATION share/${PROJECT_NAME}
 )
 
