@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <!-- 机器人的轮子部件 -->
+        <xacro:macro name="caster_xacro" params="caster_name xyz">
+        <link name="${caster_name}_link">
+        <!-- 部件的外观描述 -->
+        <visual>
+        <!-- 沿着自己几何中心的偏移和旋转 -->
+            <origin xyz="0.0 0.0 0.0" rpy=" 0.0 0.0 0.0"/>
+            <!-- 几何形状 -->
+            <geometry>
+                <sphere radius="0.016"/>
+            </geometry>
+            <!-- 材质和颜色 -->
+            <material name="yellow">
+                <color rgba="1.0 1.0 0.0 0.85"/>
+            </material>
+        </visual>
+    </link>
+        <!-- 机器人的关节，用于组合各个部件 -->
+    <joint name="${caster_name}_joint" type="fixed">
+        <!-- 关节的父部件 -->
+        <parent link="base_link"/>
+        <!-- 关节的子部件 -->
+        <child link="${caster_name}_link"/>
+        <!-- 关节的偏移和旋转 -->
+        <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>
+    </joint>
+    </xacro:macro>
+
+</robot>
