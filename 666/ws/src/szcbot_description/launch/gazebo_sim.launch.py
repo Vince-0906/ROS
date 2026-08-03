@@ -10,7 +10,7 @@ def generate_launch_description():
     # 获取功能包share路径
     urdf_package_path = get_package_share_directory('szcbot_description')
     default_xacro_path = os.path.join(urdf_package_path, 'urdf', 'szcbot/szcbot.urdf.xacro')
-    default_gazebo_world_path = os.path.join(urdf_package_path, 'world', 'room.sdf')
+    default_gazebo_world_path = os.path.join(urdf_package_path, 'world', 'complex_rooms.sdf')
     default_bridge_yaml_path = os.path.join(urdf_package_path, 'config', 'bridge.yaml')
 
     # 声明一个xacro目录参数，方便修改
@@ -19,6 +19,7 @@ def generate_launch_description():
         default_value=str(default_xacro_path),
         description='加载模型的xacro文件路径'
     )
+    
 
     # 通过文件路径获取内容，并转换为参数值对象，以供传入robot_state_publisher
     command_result = launch.substitutions.Command(['xacro ', LaunchConfiguration('model')])
@@ -44,7 +45,7 @@ def generate_launch_description():
                    '-x', '0.0',
                    '-y', '0.0',
                    '-z', '0.01',
-                   '-world', 'room'],
+                   '-world', 'complex_rooms'],
         output='screen',
         parameters=[{'use_sim_time': True}]
     )
