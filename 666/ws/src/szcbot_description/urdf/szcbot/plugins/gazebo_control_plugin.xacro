@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="gazebo_control_plugin">
+        <gazebo>
+            <!-- 差速驱动插件：控制两轮差速机器人的运动 -->
+            <plugin name='gz::sim::systems::DiffDrive' filename='gz-sim-diff-drive-system'>
+                <!-- 左右轮子关节名称 -->
+                <left_joint>left_wheel_joint</left_joint>
+                <right_joint>right_wheel_joint</right_joint>
+
+                <!-- 运动学参数 -->
+                <wheel_separation>0.2</wheel_separation>  <!-- 轮子间距（米） -->
+                <wheel_radius>0.0325</wheel_radius>        <!-- 轮子半径（米） -->
+
+                <!-- 坐标系配置 -->
+                <frame_id>odom</frame_id>                  <!-- 里程计坐标系 -->
+                <child_frame_id>base_footprint</child_frame_id>  <!-- 机器人基座坐标系 -->
+                <topic>/cmd_vel</topic>
+                <odom_topic>/odometry</odom_topic>
+                <tf_topic>/tf</tf_topic>
+            </plugin>
+
+            <!-- 关节状态发布插件：发布轮子关节的状态信息 -->
+            <plugin name='gz::sim::systems::JointStatePublisher' filename='gz-sim-joint-state-publisher-system'>
+                <joint_name>left_wheel_joint</joint_name>  <!-- 左轮关节 -->
+                <joint_name>right_wheel_joint</joint_name> <!-- 右轮关节 -->
+            </plugin>
+        </gazebo>
+   </xacro:macro>
+</robot>
