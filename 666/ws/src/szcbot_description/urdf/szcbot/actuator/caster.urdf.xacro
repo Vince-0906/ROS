@@ -18,6 +18,18 @@
                 <color rgba="1.0 1.0 0.0 0.85"/>
             </material>
         </visual>
+        <collision>
+        <!-- 沿着自己几何中心的偏移和旋转 -->
+            <origin xyz="0.0 0.0 0.0" rpy=" 0.0 0.0 0.0"/>
+            <!-- 几何形状 -->
+            <geometry>
+                <sphere radius="0.016"/>
+            </geometry>
+            <!-- 材质和颜色 -->
+            <material name="yellow">
+                <color rgba="1.0 1.0 0.0 0.85"/>
+            </material>
+        </collision>
     </link>
         <!-- 机器人的关节，用于组合各个部件 -->
     <joint name="${caster_name}_joint" type="fixed">

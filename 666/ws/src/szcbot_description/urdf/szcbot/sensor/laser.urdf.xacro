@@ -18,6 +18,18 @@
                 <color rgba="0.0 0.0 0.0 1.0"/>
             </material>
         </visual>
+        <collision>
+                <!-- 沿着自己几何中心的偏移和旋转 -->
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <!-- 几何形状 -->
+            <geometry>
+                <cylinder radius="0.01" length="0.10"/>
+            </geometry>
+            <!-- 材质和颜色 -->
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </collision>
     </link>
 
     <!-- 激光雷达的主体 -->
@@ -34,6 +46,18 @@
                 <color rgba="0.0 0.0 0.0 1.0"/>
             </material>
         </visual>
+         <collision>
+                 <!-- 沿着自己几何中心的偏移和旋转 -->
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <!-- 几何形状 -->
+            <geometry>
+                <cylinder radius="0.02" length="0.02"/>
+            </geometry>
+            <!-- 材质和颜色 -->
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </collision>
     </link>
 
 

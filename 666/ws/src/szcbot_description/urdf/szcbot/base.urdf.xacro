@@ -21,6 +21,19 @@
                 <color rgba="1.0 1.0 1.0 0.5"/>
             </material>
         </visual>
+        <collision>
+        <!-- 沿着自己几何中心的偏移和旋转 -->
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <!-- 几何形状 -->
+            <geometry>
+                <!-- 圆柱体 半径0.10m，高度0.12m -->
+                <cylinder radius="${radius}" length="${length}"/>
+            </geometry>
+            <!-- 材质和颜色 -->
+            <material name="white">
+                <color rgba="1.0 1.0 1.0 0.5"/>
+            </material>
+        </collision>
     </link>
     <joint name="base_joint" type="fixed">
         <!-- 关节的父部件 -->
