@@ -122,5 +122,110 @@
                 </imu>
             </sensor>
         </gazebo>
+        <!-- RGB相机传感器配置 -->
+        <gazebo reference="camera_link">
+            <!-- RGB相机传感器定义 -->
+            <sensor name="camera" type="camera">
+                <!-- 传感器位姿 (x y z roll pitch yaw) -->
+                <pose>0 0 0 0 0 0</pose>
+                <!-- 发布话题名称 -->
+                <topic>/camera</topic>
+                <!-- 更新频率 25Hz -->
+                <update_rate>25</update_rate>
+                <!-- 是否启用性能指标统计 -->
+                <enable_metrics>false</enable_metrics>
+                <!-- 相机参数配置 -->
+                <camera name="head">
+                    <!-- 相机位姿 -->
+                    <pose>0 0 0 0 0 0</pose>
+                    <!-- 水平视场角 (弧度) -->
+                    <horizontal_fov>1.3</horizontal_fov>
+                    <!-- 图像参数 -->
+                    <image>
+                        <!-- 图像宽度 (像素) -->
+                        <width>640</width>
+                        <!-- 图像高度 (像素) -->
+                        <height>480</height>
+                        <!-- 图像格式 -->
+                        <format>RGB_INT8</format>
+                        <!-- 抗锯齿采样倍数 -->
+                        <anti_aliasing>4</anti_aliasing>
+                    </image>
+                    <!-- 相机信息话题名称，使用默认值 -->
+                    <camera_info_topic>__default__</camera_info_topic>
+                    <!-- 触发话题，空表示不使用触发模式 -->
+                    <trigger_topic></trigger_topic>
+                    <!-- 是否使用触发模式 -->
+                    <triggered>false</triggered>
+                    <!-- 相机裁剪平面 -->
+                    <clip>
+                        <!-- 近裁剪平面距离 (米) -->
+                        <near>0.02</near>
+                        <!-- 远裁剪平面距离 (米) -->
+                        <far>30</far>
+                    </clip>
+                    <!-- 可见性掩码，用于选择性渲染 -->
+                    <visibility_mask>4294967295</visibility_mask>
+                    <!-- 图像噪声模型 -->
+                    <noise>
+                        <!-- 噪声类型 -->
+                        <type>gaussian</type>
+                        <!-- 噪声均值 -->
+                        <mean>0</mean>
+                        <!-- 噪声标准差 -->
+                        <stddev>0.0070000000000000001</stddev>
+                    </noise>
+                </camera>
+            </sensor>
+        </gazebo>
+
+        <!-- 深度相机传感器配置 -->
+        <gazebo reference="camera_link">
+            <!-- 深度相机传感器定义 -->
+            <sensor name="depth_camera" type="depth_camera">
+                <!-- 传感器位姿 (x y z roll pitch yaw) -->
+                <pose>0 0 0 0 0 0</pose>
+                <!-- 发布话题名称 -->
+                <topic>/depth_camera</topic>
+                <!-- 更新频率 25Hz -->
+                <update_rate>25</update_rate>
+                <!-- 是否启用性能指标统计 -->
+                <enable_metrics>false</enable_metrics>
+                <!-- 深度相机参数配置 -->
+                <camera name="depth">
+                    <!-- 相机位姿 -->
+                    <pose>0 0 0 0 0 0</pose>
+                    <!-- 水平视场角 (弧度) -->
+                    <horizontal_fov>1.3</horizontal_fov>
+                    <!-- 图像参数 -->
+                    <image>
+                        <!-- 图像宽度 (像素) -->
+                        <width>640</width>
+                        <!-- 图像高度 (像素) -->
+                        <height>480</height>
+                        <!-- 深度图像格式 -->
+                        <format>R_FLOAT32</format>
+                    </image>
+                    <!-- 相机信息话题名称，使用默认值 -->
+                    <camera_info_topic>__default__</camera_info_topic>
+                    <!-- 相机裁剪平面 -->
+                    <clip>
+                        <!-- 近裁剪平面距离 (米) -->
+                        <near>0.1</near>
+                        <!-- 远裁剪平面距离 (米) -->
+                        <far>10.0</far>
+                    </clip>
+                    <!-- 深度图像噪声模型 -->
+                    <noise>
+                        <!-- 噪声类型 -->
+                        <type>gaussian</type>
+                        <!-- 噪声均值 -->
+                        <mean>0.0</mean>
+                        <!-- 噪声标准差 -->
+                        <stddev>0.01</stddev>
+                    </noise>
+                </camera>
+            </sensor>
+        </gazebo>
    </xacro:macro>
 </robot>

@@ -34,6 +34,12 @@
         <xacro:box_inertia m="0.1" w="0.02" h="0.10" d="0.02" />
 
     </link>
+
+        <link name="camera_optical_link">
+
+
+    </link>
+
         <!-- 机器人的关节，用于组合各个部件 -->
     <joint name="camera_joint" type="fixed">
         <!-- 关节的父部件 -->
@@ -42,6 +48,15 @@
         <child link="camera_link"/>
         <!-- 关节的偏移和旋转 -->
         <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+    <joint name="camera_optical_link_joint" type="fixed">
+        <!-- 关节的父部件 -->
+        <parent link="camera_link"/>
+        <!-- 关节的子部件 -->
+        <child link="camera_optical_link"/>
+        <!-- 关节的偏移和旋转 -->
+        <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0.0 ${-pi/2}"/>
     </joint>
             <gazebo reference ="camera_link">
         <material>Gazebo/Black</material>

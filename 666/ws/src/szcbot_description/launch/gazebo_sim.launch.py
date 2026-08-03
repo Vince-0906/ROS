@@ -45,6 +45,9 @@ def generate_launch_description():
                    '-x', '0.0',
                    '-y', '0.0',
                    '-z', '0.01',
+                    "-R", "0.0",    # roll
+                    "-P", "0.0",    # pitch
+                    "-Y", "3.14",    # yaw
                    '-world', 'complex_rooms'],
         output='screen',
         parameters=[{'use_sim_time': True}]
@@ -70,25 +73,32 @@ def generate_launch_description():
     )
 
     # 静态坐标变换：将 Gazebo 的 frame_id 映射到 laser_link
-    action_static_tf = launch_ros.actions.Node(
+    action_static_tf_lidar = launch_ros.actions.Node(
         package='tf2_ros',
         executable='static_transform_publisher',
         name='lidar_frame_publisher',
         arguments=['0', '0', '0', '0', '0', '0', 'laser_link', 'szcbot/base_footprint/gpu_lidar']
     )
     # 静态坐标变换：将 Gazebo 的 frame_id 映射到 imu_link
-    action_static_tf = launch_ros.actions.Node(
+    action_static_tf_imu = launch_ros.actions.Node(
         package='tf2_ros',
         executable='static_transform_publisher',
-        name='lidar_frame_publisher',
+        name='imu_frame_publisher',
         arguments=['0', '0', '0', '0', '0', '0', 'imu_link', 'szcbot/base_footprint/imu_sensor']
     )
     # 静态坐标变换：将 Gazebo 的 frame_id 映射到 camera_link
-    action_static_tf = launch_ros.actions.Node(
+    action_static_tf_camera = launch_ros.actions.Node(
         package='tf2_ros',
         executable='static_transform_publisher',
-        name='lidar_frame_publisher',
+        name='camera_frame_publisher',
         arguments=['0', '0', '0', '0', '0', '0', 'camera_link', 'szcbot/base_footprint/camera']
+    )
+    # 静态坐标变换：将 Gazebo 的 frame_id 映射到 camera_link
+    action_static_tf_depth_camera = launch_ros.actions.Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='depth_camera_frame_publisher',
+        arguments=['0', '0', '0', '0', '0', '0', 'camera_link', 'szcbot/base_footprint/depth_camera']
     )
 
     return launch.LaunchDescription([
@@ -99,6 +109,9 @@ def generate_launch_description():
         action_launch_gazebo,
         action_create,
         bridge,
-        action_static_tf
+        action_static_tf_lidar,
+        action_static_tf_imu,
+        action_static_tf_camera,
+        action_static_tf_depth_camera
     ])
 
