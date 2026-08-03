@@ -42,6 +42,13 @@
         <!-- 关节的偏移和旋转 -->
         <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>
     </joint>
+                    <gazebo reference ="${caster_name}_link">
+        <material>Gazebo/Yellow</material>
+        <mu1 value="0.0"/>
+        <mu2 value="0.0"/>
+        <kp value="1000000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
     </xacro:macro>
 
 </robot>

@@ -13,7 +13,7 @@
 
 <xacro:base_xacro length="0.12" radius="0.10"/>
 <xacro:imu_xacro xyz="0.0 0.0 0.02"/>
-<xacro:camera_xacro xyz="0.10 0.0 0.075"/>
+<xacro:camera_xacro xyz="0.10 0.0 0.07"/>
 <xacro:laser_xacro  xyz="0.00 0.0 0.11"/>
 <xacro:wheel_xacro wheel_name="left_wheel" xyz="0.0 0.10 -0.06"/>
 <xacro:wheel_xacro wheel_name="right_wheel" xyz="0.0 -0.10 -0.06"/>

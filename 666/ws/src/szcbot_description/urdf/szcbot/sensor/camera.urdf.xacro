@@ -43,6 +43,9 @@
         <!-- 关节的偏移和旋转 -->
         <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>
     </joint>
+            <gazebo reference ="camera_link">
+        <material>Gazebo/Black</material>
+    </gazebo>
     </xacro:macro>
 
 </robot>

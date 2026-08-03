@@ -40,21 +40,16 @@ def generate_launch_description():
         arguments=["-topic", "/robot_description", "-name", "szcbot",
                 "-x", "0.0",
                 "-y", "0.0",
-                "-z", "0.5",
-                "-Y", "0.0",
+                "-z", "0.0",
                 '-world', 'room'],
         output="screen",
         parameters=[{'use_sim_time': True}]
 )
 
-    delay_action_create = launch.actions.TimerAction(
-        period=3.0,
-        actions=[action_create]
-    )
 
     return launch.LaunchDescription([
         action_declare_arg_model_path,
         action_robot_state_publisher,
         action_launch_gazebo,
-        delay_action_create
+        action_create
     ])

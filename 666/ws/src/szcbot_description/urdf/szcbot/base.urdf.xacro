@@ -47,6 +47,9 @@
         <!-- 关节的偏移和旋转 -->
         <origin xyz="0.0 0.0 ${length/2.0+0.032-0.001}" rpy="0.0 0.0 0.0"/>
     </joint>
+        <gazebo reference ="base_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
     </xacro:macro>
 
 
