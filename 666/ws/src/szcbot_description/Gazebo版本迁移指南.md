@@ -406,7 +406,256 @@ gz topic -l | grep joint
 
 ---
 
-## 七、参考资源
+## 七、传感器配置
+
+### 1. GPU Lidar (3D 点云激光雷达)
+
+#### 传感器插件配置
+
+**文件位置**: `urdf/*/plugins/gazebo_sensor_plugin.xacro`
+
+```xml
+<gazebo reference="laser_link">
+    <sensor name="gpu_lidar" type="gpu_lidar">
+        <topic>lidar</topic>
+        <update_rate>10</update_rate>
+        <lidar>
+            <!-- 水平扫描范围 -->
+            <scan>
+                <horizontal>
+                    <samples>360</samples>
+                    <resolution>1.000000</resolution>
+                    <min_angle>0.000000</min_angle>
+                    <max_angle>6.283100</max_angle>
+                </horizontal>
+                <!-- 垂直扫描范围（添加此部分即可获得 3D 点云） -->
+                <vertical>
+                    <samples>16</samples>  <!-- 线数：16线激光雷达 -->
+                    <resolution>1</resolution>
+                    <min_angle>-0.261799</min_angle>  <!-- -15° -->
+                    <max_angle>0.261799</max_angle>   <!-- +15° -->
+                </vertical>
+            </scan>
+            <!-- 扫描距离 -->
+            <range>
+                <min>0.08</min>
+                <max>10.0</max>
+                <resolution>0.01</resolution>
+            </range>
+        </lidar>
+        <visualize>true</visualize>
+    </sensor>
+</gazebo>
+```
+
+**配置说明**：
+- `<horizontal>`: 水平扫描配置（360度）
+- `<vertical>`: 垂直扫描配置（添加此项即可生成 3D 点云）
+  - `samples`: 垂直方向的线数（16、32、64等）
+  - `min_angle`/`max_angle`: 垂直视野范围（弧度）
+- `<visualize>true</visualize>`: 在 Gazebo 中显示激光扫描可视化
+
+#### 世界文件必需插件
+
+**⚠️ 重要**：新版 Gazebo 必须在世界文件中加载传感器系统插件，否则传感器不工作！
+
+**文件位置**: `world/*.sdf`
+
+```xml
+<world name="complex_rooms">
+    <!-- 物理引擎 -->
+    <physics type="ode">
+        <max_step_size>0.001</max_step_size>
+        <real_time_factor>1</real_time_factor>
+        <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <!-- ⚠️ 必须添加以下系统插件 -->
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"></plugin>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"></plugin>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"></plugin>
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"></plugin>
+    
+    <!-- 传感器系统插件：必须加载才能让传感器工作 -->
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+        <render_engine>ogre2</render_engine>
+    </plugin>
+    
+    <!-- IMU 系统插件 -->
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"></plugin>
+
+    <!-- 其他世界内容... -->
+</world>
+```
+
+#### 桥接配置
+
+**文件位置**: `config/bridge.yaml`
+
+```yaml
+# 激光雷达扫描数据（2D）
+- ros_topic_name: "scan"
+  gz_topic_name: "/lidar"
+  ros_type_name: "sensor_msgs/msg/LaserScan"
+  gz_type_name: "gz.msgs.LaserScan"
+  direction: "GZ_TO_ROS"
+
+# 激光雷达点云数据（3D）
+- ros_topic_name: "points"
+  gz_topic_name: "/lidar/points"
+  ros_type_name: "sensor_msgs/msg/PointCloud2"
+  gz_type_name: "gz.msgs.PointCloudPacked"
+  direction: "GZ_TO_ROS"
+```
+
+**注意**：`ros_gz_bridge` 不支持直接修改 `frame_id`，需要额外处理。
+
+#### Frame ID 问题及解决方案
+
+**问题描述**：
+
+Gazebo 发布的点云数据的 `frame_id` 是完整路径格式：
+```
+szcbot/base_footprint/gpu_lidar
+```
+
+而 ROS 2 的 TF 树中只有简单的坐标系名称：
+```
+base_footprint -> base_link -> laser_link
+```
+
+这会导致 RViz 无法进行坐标变换，出现错误：
+```
+Could not transform from [szcbot/base_footprint/gpu_lidar] to [laser_link]
+```
+
+**解决方案：添加静态坐标变换**
+
+在 launch 文件中添加 `static_transform_publisher` 节点：
+
+**文件位置**: `launch/gazebo_sim.launch.py`
+
+```python
+from launch import LaunchDescription
+import launch_ros
+
+def generate_launch_description():
+    # ... 其他配置 ...
+    
+    # 静态坐标变换：将 Gazebo 的 frame_id 映射到 laser_link
+    action_static_tf = launch_ros.actions.Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='lidar_frame_publisher',
+        arguments=['0', '0', '0', '0', '0', '0', 'laser_link', 'szcbot/base_footprint/gpu_lidar']
+    )
+    
+    return LaunchDescription([
+        # ... 其他节点 ...
+        action_static_tf  # 添加静态变换发布器
+    ])
+```
+
+**参数说明**：
+- 前 6 个参数：`x y z roll pitch yaw`（坐标和旋转，这里都是 0 表示重合）
+- 第 7 个参数：父坐标系（`laser_link`）
+- 第 8 个参数：子坐标系（Gazebo 的完整 frame_id）
+
+#### RViz 可视化配置
+
+启动 RViz：
+```bash
+rviz2
+```
+
+配置步骤：
+1. **Fixed Frame**: 设置为 `base_footprint` 或 `laser_link`
+2. **添加 PointCloud2**:
+   - Topic: `/points`
+   - Size: `0.05`（可调整点的大小）
+   - Style: `Points` 或 `Flat Squares`
+   - Color Transformer: `AxisColor`（按高度显示颜色）或 `Intensity`
+3. **添加 TF**: 查看所有坐标系关系
+
+#### 验证步骤
+
+```bash
+# 1. 检查点云话题是否有数据
+ros2 topic hz /points
+ros2 topic echo /points --no-arr | grep frame_id
+
+# 2. 检查 Gazebo 话题
+gz topic -l | grep lidar
+gz topic -e -t /lidar/points | head -20
+
+# 3. 检查 TF 变换
+ros2 run tf2_ros tf2_echo laser_link szcbot/base_footprint/gpu_lidar
+
+# 4. 查看 TF 树
+ros2 run tf2_tools view_frames
+# 会生成 frames.pdf 文件
+```
+
+#### 常见问题
+
+**问题 1**: Gazebo 中看不到激光扫描可视化
+
+**错误示例**：
+```
+[GUI] [Err] [VisualizeLidar.cc:285] The lidar entity with topic '['/lidar'] 
+could not be found. Error displaying lidar visual.
+```
+
+**原因**：世界文件中没有加载传感器系统插件
+
+**解决方案**：在世界文件中添加：
+```xml
+<plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+    <render_engine>ogre2</render_engine>
+</plugin>
+```
+
+**问题 2**: ROS 2 话题有数据但 RViz 看不到点云
+
+**可能原因**：
+1. Fixed Frame 设置错误
+2. 坐标变换缺失
+3. 点云颜色与背景相同
+
+**解决方案**：
+1. 将 Fixed Frame 改为 `base_footprint` 或 `laser_link`
+2. 添加静态坐标变换（见上文）
+3. 调整 Color Transformer 和背景颜色
+
+**问题 3**: 点云 frame_id 不对
+
+**症状**：
+```bash
+ros2 topic echo /points --no-arr | grep frame_id
+# 输出: frame_id: szcbot/base_footprint/gpu_lidar
+```
+
+**解决方案**：添加静态坐标变换（见上文），不需要修改 frame_id 本身
+
+#### 性能调优
+
+根据需求调整传感器参数：
+
+| 参数 | 说明 | 低配置 | 高配置 |
+|------|------|--------|--------|
+| `<samples>` (水平) | 每圈采样点数 | 180 | 720 |
+| `<samples>` (垂直) | 线数 | 8 | 64 |
+| `<update_rate>` | 更新频率 (Hz) | 5 | 30 |
+| `<max>` (距离) | 最大扫描距离 | 5.0 | 50.0 |
+
+**建议**：
+- 开发调试：16线、10Hz、10m 距离
+- 性能测试：32线、20Hz、30m 距离
+- 实际应用：根据真实传感器参数配置
+
+---
+
+## 八、参考资源
 
 ### 官方文档
 - [Gazebo Sim 插件文档](https://gazebosim.org/api/sim/8/namespacegz_1_1sim_1_1systems.html)
@@ -436,7 +685,7 @@ ros2 run tf2_tools view_frames
 
 ---
 
-## 八、总结
+## 九、总结
 
 ### 核心要点
 

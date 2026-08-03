@@ -69,6 +69,14 @@ def generate_launch_description():
         config_file=LaunchConfiguration('config_file')
     )
 
+    # 静态坐标变换：将 Gazebo 的 frame_id 映射到 laser_link
+    action_static_tf = launch_ros.actions.Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='lidar_frame_publisher',
+        arguments=['0', '0', '0', '0', '0', '0', 'laser_link', 'szcbot/base_footprint/gpu_lidar']
+    )
+
     return launch.LaunchDescription([
         action_declare_arg_model_path,
         bridge_name_arg,
@@ -76,6 +84,7 @@ def generate_launch_description():
         action_robot_state_publisher,
         action_launch_gazebo,
         action_create,
-        bridge
+        bridge,
+        action_static_tf
     ])
 

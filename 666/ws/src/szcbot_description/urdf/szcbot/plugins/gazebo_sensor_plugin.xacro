@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="gazebo_sensor_plugin">
+        <gazebo reference="laser_link">
+            <sensor name="gpu_lidar" type="gpu_lidar">
+                <topic>lidar</topic>
+                <update_rate>10</update_rate>
+                <lidar>
+                    <!-- 设置扫描范围 -->
+                    <scan>
+                        <!-- 描述水平扫描范围 描述雷达扫描一圈的采样光束数量 分辨率和samples一起决定实际采样点数量
+                        起始扫描角度 终止扫描角度 vertical 描述竖直扫描范围，字段同horizontal -->
+                        <horizontal>
+                            <samples>360</samples>
+                            <resolution>1.000000</resolution>
+                            <min_angle>0.000000</min_angle>
+                            <max_angle>6.283100</max_angle>
+                        </horizontal>
+                    </scan>
+                    <!-- 设置扫描距离 -->
+                    <range>
+                        <min>0.080000</min>
+                        <max>10.0</max>
+                        <resolution>0.010000</resolution>
+                    </range>
+                </lidar>
+                <visualize>true</visualize>
+            </sensor>
+        </gazebo>
+   </xacro:macro>
+</robot>

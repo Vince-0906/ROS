@@ -9,6 +9,21 @@
       <real_time_update_rate>1000</real_time_update_rate>
     </physics>
 
+    <!-- 核心系统插件 -->
+    <plugin name="gz::sim::systems::Physics" filename="gz-sim-physics-system"/>
+    <plugin name="gz::sim::systems::UserCommands" filename="gz-sim-user-commands-system"/>
+    <plugin name="gz::sim::systems::SceneBroadcaster" filename="gz-sim-scene-broadcaster-system"/>
+    <plugin name="gz::sim::systems::Contact" filename="gz-sim-contact-system"/>
+
+    <!-- 传感器系统插件：必须加载才能让传感器工作 -->
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <!-- IMU 系统插件 -->
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu">
+    </plugin>
+
     <!-- Lighting -->
     <light name="sun" type="directional">
       <cast_shadows>true</cast_shadows>
