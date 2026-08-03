@@ -2,6 +2,9 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:macro name="base_xacro" params="length radius">
+    <link name="base_footprint"/>
+
+
     <!-- 机器人的身体部分 -->
     <link name="base_link">
         <!-- 部件的外观描述 -->
@@ -19,6 +22,15 @@
             </material>
         </visual>
     </link>
+    <joint name="base_joint" type="fixed">
+        <!-- 关节的父部件 -->
+        <parent link="base_footprint"/>
+        <!-- 关节的子部件 -->
+        <child link="base_link"/>
+        <!-- 关节的偏移和旋转 -->
+        <origin xyz="0.0 0.0 ${length/2.0+0.032-0.001}" rpy="0.0 0.0 0.0"/>
+    </joint>
     </xacro:macro>
+
 
 </robot>
