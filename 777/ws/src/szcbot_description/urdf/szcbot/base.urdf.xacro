@@ -37,7 +37,7 @@
         </collision>
 
         <!-- 机器人的惯性描述 -->
-        <xacro:cylinder_inertia m="2.0" r="${radius}" h="${length}" />
+        <xacro:cylinder_inertia m="1.0" r="${radius}" h="${length}" />
     </link>
     <joint name="base_joint" type="fixed">
         <!-- 关节的父部件 -->

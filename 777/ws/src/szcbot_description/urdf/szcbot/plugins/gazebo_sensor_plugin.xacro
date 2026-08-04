@@ -8,8 +8,8 @@
             <sensor name="gpu_lidar" type="gpu_lidar">
                 <!-- 发布话题名称 -->
                 <topic>lidar</topic>
-                <!-- 更新频率 100Hz -->
-                <update_rate>100</update_rate>
+                <!-- 更新频率 10Hz -->
+                <update_rate>10</update_rate>
                 <lidar>
                     <!-- 设置扫描范围 -->
                     <scan>

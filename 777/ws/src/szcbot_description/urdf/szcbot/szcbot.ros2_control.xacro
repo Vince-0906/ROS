@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- ROS 2 Control 宏定义 -->
+    <xacro:macro name="szcbot_ros2_control">
+        <!-- ROS 2 Control 系统定义 -->
+        <ros2_control name="SzcbotGazeboSystem" type="system">
+            <!-- 硬件插件：使用新版 Gazebo 的系统插件 -->
+            <hardware>
+                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+            </hardware>
+
+            <!-- 左轮关节控制接口 -->
+            <joint name="left_wheel_joint">
+                <!-- 速度命令接口 -->
+                <command_interface name="velocity">
+                    <param name="min">-10.0</param>
+                    <param name="max">10.0</param>
+                </command_interface>
+                <!-- 力矩命令接口 -->
+                <command_interface name="effort">
+                    <param name="min">-1.0</param>
+                    <param name="max">1.0</param>
+                </command_interface>
+                <!-- 位置状态接口 -->
+                <state_interface name="position" />
+                <!-- 速度状态接口 -->
+                <state_interface name="velocity" />
+                <!-- 力矩状态接口 -->
+                <state_interface name="effort" />
+            </joint>
+
+            <!-- 右轮关节控制接口 -->
+            <joint name="right_wheel_joint">
+                <!-- 速度命令接口 -->
+                <command_interface name="velocity">
+                    <param name="min">-10.0</param>
+                    <param name="max">10.0</param>
+                </command_interface>
+                <!-- 力矩命令接口 -->
+                <command_interface name="effort">
+                    <param name="min">-1.0</param>
+                    <param name="max">1.0</param>
+                </command_interface>
+                <!-- 位置状态接口 -->
+                <state_interface name="position" />
+                <!-- 速度状态接口 -->
+                <state_interface name="velocity" />
+                <!-- 力矩状态接口 -->
+                <state_interface name="effort" />
+            </joint>
+        </ros2_control>
+
+        <!-- Gazebo ROS 2 Control 插件 -->
+        <gazebo>
+            <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+                <!-- ROS 2 Control 配置文件路径 -->
+                <parameters>$(find szcbot_description)/config/szcbot_ros2_controller.yaml</parameters>
+                <!-- 话题重映射 -->
+                <ros>
+                    <!-- 将差速驱动控制器的速度命令话题重映射到 /cmd_vel_stamped -->
+                    <remapping>/szcbot_diff_drive_controller/cmd_vel:=/cmd_vel_stamped</remapping>
+                    <!-- 将里程计话题重映射到 /odom -->
+                    <remapping>/szcbot_diff_drive_controller/odom:=/odom</remapping>
+                </ros>
+            </plugin>
+        </gazebo>
+    </xacro:macro>
+</robot>

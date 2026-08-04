@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find szcbot_description)/urdf/szcbot/common_inertia.xacro"/>
+
+    <!-- 机器人的激光雷达部件 -->
+        <xacro:macro name="laser_xacro" params="xyz">
+
+        <!-- 激光雷达的支撑杆 -->
+    <link name="laser_cylinder_link">
+        <visual>
+        <!-- 沿着自己几何中心的偏移和旋转 -->
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <!-- 几何形状 -->
+            <geometry>
+                <cylinder radius="0.01" length="0.10"/>
+            </geometry>
+            <!-- 材质和颜色 -->
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+                <!-- 沿着自己几何中心的偏移和旋转 -->
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <!-- 几何形状 -->
+            <geometry>
+                <cylinder radius="0.01" length="0.10"/>
+            </geometry>
+            <!-- 材质和颜色 -->
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </collision>
+        <xacro:cylinder_inertia m="0.05" r="0.01" h="0.10" />
+
+    </link>
+
+    <!-- 激光雷达的主体 -->
+        <link name="laser_link">
+        <visual>
+        <!-- 沿着自己几何中心的偏移和旋转 -->
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <!-- 几何形状 -->
+            <geometry>
+                <cylinder radius="0.02" length="0.02"/>
+            </geometry>
+            <!-- 材质和颜色 -->
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </visual>
+         <collision>
+                 <!-- 沿着自己几何中心的偏移和旋转 -->
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <!-- 几何形状 -->
+            <geometry>
+                <cylinder radius="0.02" length="0.02"/>
+            </geometry>
+            <!-- 材质和颜色 -->
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1.0"/>
+            </material>
+        </collision>
+        <xacro:cylinder_inertia m="0.10" r="0.02" h="0.02" />
+    </link>
+
+
+        <!-- 机器人的关节，用于组合各个部件 -->
+    <joint name="laser_joint" type="fixed">
+        <!-- 关节的父部件 -->
+        <parent link="laser_cylinder_link"/>
+        <!-- 关节的子部件 -->
+        <child link="laser_link"/>
+        <!-- 关节的偏移和旋转 -->
+        <origin xyz="0.0 0.0 0.05" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+        <joint name="laser_cylinder_joint" type="fixed">
+        <!-- 关节的父部件 -->
+        <parent link="base_link"/>
+        <!-- 关节的子部件 -->
+        <child link="laser_cylinder_link"/>
+        <!-- 关节的偏移和旋转 -->
+        <origin xyz="${xyz}" rpy="0.0 0.0 0.0"/>
+    </joint>
+    <!-- gazebo标签-->
+    <gazebo reference ="laser_cylinder_link">
+        <material>Gazebo/Black</material>
+    </gazebo>
+    <gazebo reference ="laser_link">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    </xacro:macro>
+
+</robot>

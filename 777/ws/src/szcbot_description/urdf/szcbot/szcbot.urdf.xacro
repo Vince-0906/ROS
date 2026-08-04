@@ -21,8 +21,8 @@
 <xacro:laser_xacro  xyz="0.00 0.0 0.11"/>
 
 
-<xacro:wheel_xacro wheel_name="left_wheel" xyz="0.0 0.10 -0.0585"/>
-<xacro:wheel_xacro wheel_name="right_wheel" xyz="0.0 -0.10 -0.0585"/>
+<xacro:wheel_xacro wheel_name="left_wheel" xyz="0.0 0.10 -0.06"/>
+<xacro:wheel_xacro wheel_name="right_wheel" xyz="0.0 -0.10 -0.06"/>
 <xacro:caster_xacro caster_name="front_caster" xyz="0.08 0.0 -0.076"/>
 <xacro:caster_xacro caster_name="back_caster" xyz="-0.08 0.0 -0.076"/>
 
