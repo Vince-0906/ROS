@@ -7,9 +7,11 @@
             <!-- GPU加速的激光雷达传感器 -->
             <sensor name="gpu_lidar" type="gpu_lidar">
                 <!-- 发布话题名称 -->
-                <topic>lidar</topic>
+                <topic>/lidar</topic>
+                <!-- 传感器坐标系 -->
+                <frame_id>laser_link</frame_id>
                 <!-- 更新频率 100Hz -->
-                <update_rate>100</update_rate>
+                <update_rate>10</update_rate>
                 <lidar>
                     <!-- 设置扫描范围 -->
                     <scan>
