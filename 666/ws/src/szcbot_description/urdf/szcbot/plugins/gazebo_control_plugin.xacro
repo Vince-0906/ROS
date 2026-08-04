@@ -22,8 +22,9 @@
 
             <!-- 关节状态发布插件：发布轮子关节的状态信息 -->
             <plugin name='gz::sim::systems::JointStatePublisher' filename='gz-sim-joint-state-publisher-system'>
-                <joint_name>left_wheel_joint</joint_name>  <!-- 左轮关节 -->
-                <joint_name>right_wheel_joint</joint_name> <!-- 右轮关节 -->
+                <topic>/joint_states</topic>
+                <left_joint>left_wheel_joint</left_joint>
+                <right_joint>right_wheel_joint</right_joint>
             </plugin>
         </gazebo>
    </xacro:macro>
