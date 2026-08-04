@@ -16,6 +16,11 @@
                     <param name="min">-10.0</param>
                     <param name="max">10.0</param>
                 </command_interface>
+                <!-- 力矩命令接口 -->
+                <command_interface name="effort">
+                    <param name="min">-1.0</param>
+                    <param name="max">1.0</param>
+                </command_interface>
                 <!-- 位置状态接口 -->
                 <state_interface name="position" />
                 <!-- 速度状态接口 -->
@@ -30,6 +35,11 @@
                 <command_interface name="velocity">
                     <param name="min">-10.0</param>
                     <param name="max">10.0</param>
+                </command_interface>
+                <!-- 力矩命令接口 -->
+                <command_interface name="effort">
+                    <param name="min">-1.0</param>
+                    <param name="max">1.0</param>
                 </command_interface>
                 <!-- 位置状态接口 -->
                 <state_interface name="position" />
@@ -56,4 +66,3 @@
         </gazebo>
     </xacro:macro>
 </robot>
-
