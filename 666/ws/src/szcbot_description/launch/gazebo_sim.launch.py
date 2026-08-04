@@ -106,9 +106,23 @@ def generate_launch_description():
         output='screen'
     )
 
-    action_load_effort_controller = launch.actions.ExecuteProcess(
-        cmd='ros2 control load_controller szcbot_effort_controller --set-state active'.split(' '),
+    # action_load_effort_controller = launch.actions.ExecuteProcess(
+    #     cmd='ros2 control load_controller szcbot_effort_controller --set-state active'.split(' '),
+    #     output='screen'
+    # )
+
+    action_load_diff_drive_controller = launch.actions.ExecuteProcess(
+        cmd='ros2 control load_controller szcbot_diff_drive_controller --set-state active'.split(' '),
         output='screen'
+    )
+
+    # Twist to TwistStamped 转换节点
+    action_twist_to_stamped = launch_ros.actions.Node(
+        package='szcbot_description',
+        executable='twist_to_stamped.py',
+        name='twist_to_stamped',
+        output='screen',
+        parameters=[{'use_sim_time': True}]
     )
 
     return launch.LaunchDescription([
@@ -123,6 +137,7 @@ def generate_launch_description():
         action_static_tf_imu,
         action_static_tf_camera,
         action_static_tf_depth_camera,
+        action_twist_to_stamped,
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=action_create,
@@ -132,7 +147,7 @@ def generate_launch_description():
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=action_load_joint_state_controller,
-                on_exit=[action_load_effort_controller],
+                on_exit=[action_load_diff_drive_controller],
             )
         )
     ])

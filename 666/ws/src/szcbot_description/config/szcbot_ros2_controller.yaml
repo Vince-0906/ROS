@@ -10,6 +10,9 @@ controller_manager:
     szcbot_effort_controller:
       type: effort_controllers/JointGroupEffortController
 
+    szcbot_diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
 
 szcbot_effort_controller:
   ros__parameters:
@@ -22,3 +25,37 @@ szcbot_effort_controller:
       - position
       - velocity
       - effort
+
+
+
+szcbot_diff_drive_controller:
+  ros__parameters:
+    left_wheel_names: ["left_wheel_joint"]
+    right_wheel_names: ["right_wheel_joint"]
+    #轮子的半径和轮子之间的距离
+    wheel_separation: 0.2
+    #wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
+    wheel_radius: 0.0325
+    #轮子半径的乘数
+    wheel_separation_multiplier: 1.0
+    left_wheel_radius_multiplier: 1.0
+    right_wheel_radius_multiplier: 1.0
+    #发布频率
+    publish_rate: 50.0
+    #里程计的坐标系
+    odom_frame_id: odom
+    #机器人底盘的坐标系
+    base_frame_id: base_footprint
+    #位置和速度的协方差噪声矩阵
+    pose_covariance_diagonal : [0.001, 0.001, 0.0, 0.0, 0.0, 0.01]
+    twist_covariance_diagonal: [0.001, 0.0, 0.0, 0.0, 0.0, 0.01]
+    #是否使用开环控制
+    open_loop: true
+    #是否使用里程计tf发布
+    enable_odom_tf: true
+    #接收cmd_vel的超时时间，单位为秒
+    cmd_vel_timeout: 0.5
+    #publish_limited_velocity: true
+    #是否使用带时间戳的速度消息
+    use_stamped_vel: false
+    cmd_vel_topic: /cmd_vel

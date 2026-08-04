@@ -26,4 +26,10 @@ install(DIRECTORY launch config urdf world
   DESTINATION share/${PROJECT_NAME}
 )
 
+# 安装 Python 脚本
+install(PROGRAMS
+  src/twist_to_stamped.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

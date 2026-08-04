@@ -57,8 +57,8 @@
                 <parameters>$(find szcbot_description)/config/szcbot_ros2_controller.yaml</parameters>
                 <!-- 话题重映射 -->
                 <ros>
-                    <!-- 将差速驱动控制器的速度命令话题重映射到 /cmd_vel -->
-                    <remapping>/szcbot_diff_drive_controller/cmd_vel_unstamped:=/cmd_vel</remapping>
+                    <!-- 将差速驱动控制器的速度命令话题重映射到 /cmd_vel_stamped -->
+                    <remapping>/szcbot_diff_drive_controller/cmd_vel:=/cmd_vel_stamped</remapping>
                     <!-- 将里程计话题重映射到 /odom -->
                     <remapping>/szcbot_diff_drive_controller/odom:=/odom</remapping>
                 </ros>
