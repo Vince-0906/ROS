@@ -5,7 +5,6 @@ from ament_index_python.packages import get_package_share_directory
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from ros_gz_bridge.actions import RosGzBridge
-from launch.actions import ExecuteProcess
 
 def generate_launch_description():
     # 获取功能包share路径
@@ -107,6 +106,11 @@ def generate_launch_description():
         output='screen'
     )
 
+    action_load_effort_controller = launch.actions.ExecuteProcess(
+        cmd='ros2 control load_controller szcbot_effort_controller --set-state active'.split(' '),
+        output='screen'
+    )
+
     return launch.LaunchDescription([
         action_declare_arg_model_path,
         bridge_name_arg,
@@ -123,6 +127,12 @@ def generate_launch_description():
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=action_create,
                 on_exit=[action_load_joint_state_controller],
+            )
+        ),
+        launch.actions.RegisterEventHandler(
+            event_handler=launch.event_handlers.OnProcessExit(
+                target_action=action_load_joint_state_controller,
+                on_exit=[action_load_effort_controller],
             )
         )
     ])
