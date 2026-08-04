@@ -5,6 +5,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from ros_gz_bridge.actions import RosGzBridge
+from launch.actions import ExecuteProcess
 
 def generate_launch_description():
     # 获取功能包share路径
@@ -101,6 +102,11 @@ def generate_launch_description():
         arguments=['0', '0', '0', '0', '0', '0', 'camera_link', 'szcbot/base_footprint/depth_camera']
     )
 
+    action_load_joint_state_controller = launch.actions.ExecuteProcess(
+        cmd='ros2 control load_controller szcbot_joint_state_broadcaster --set-state active'.split(' '),
+        output='screen'
+    )
+
     return launch.LaunchDescription([
         action_declare_arg_model_path,
         bridge_name_arg,
@@ -112,6 +118,12 @@ def generate_launch_description():
         action_static_tf_lidar,
         action_static_tf_imu,
         action_static_tf_camera,
-        action_static_tf_depth_camera
+        action_static_tf_depth_camera,
+        launch.actions.RegisterEventHandler(
+            event_handler=launch.event_handlers.OnProcessExit(
+                target_action=action_create,
+                on_exit=[action_load_joint_state_controller],
+            )
+        )
     ])
 
