@@ -27,6 +27,7 @@ setup(
             'init_robot_pose=szcbot_application.init_robot_pose:main',
             'get_robot_pose=szcbot_application.get_robot_pose:main',
             'nav_to_pose=szcbot_application.nav_to_pose:main',
+            'waypoint_follower=szcbot_application.waypoint_follower:main',
         ],
     },
 )
