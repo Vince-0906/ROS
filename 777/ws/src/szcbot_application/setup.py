@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'init_robot_pose=szcbot_application.init_robot_pose:main',
+            'get_robot_pose=szcbot_application.get_robot_pose:main',
         ],
     },
 )
