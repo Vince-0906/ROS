@@ -7,6 +7,9 @@ from tf2_ros import TransformListener,Buffer # 坐标监听器
 from tf_transformations import euler_from_quaternion,quaternion_from_euler # 四元数转欧拉角和欧拉角转四元数
 import math # 角度转弧度
 from autopartol_interfaces.srv import SpeechText
+from sensor_msgs.msg import Image # 消息接口
+from cv_bridge import CvBridge # ROS图像消息与OpenCV图像之间的转换
+import cv2 # OpenCV库
 
 
 class PartolNode(BasicNavigator):
@@ -15,11 +18,37 @@ class PartolNode(BasicNavigator):
         # 声明相关参数
         self.declare_parameter('initial_point', [0.0, 0.0, 0.0])
         self.declare_parameter('target_points', [0.0, 0.0, 0.0, 1.0, 1.0, 1.57])
+        self.declare_parameter('image_save_path', '') # 声明图像保存路径参数
         self.initial_point_ = self.get_parameter('initial_point').value
         self.target_points_ = self.get_parameter('target_points').value
+        self.image_save_path = self.get_parameter('image_save_path').value
         self.buffer_ = Buffer() # 创建坐标变换缓存对象
         self.broadcaster_ = TransformListener(self.buffer_,self) # 创建静态坐标发送器对象
         self.speech_client_ = self.create_client(SpeechText, 'speech_text') # 创建语音服务客户端
+        self.cv_bridge_ = CvBridge() # 创建CvBridge对象，用于图像转换
+        self.latest_image = None # 用于存储最新的图像数据
+        self.image_subscriber_ = self.create_subscription(Image, '/camera_sensor/image_raw', self.image_callback, 10) # 创建图像订阅者
+
+    def image_callback(self, msg):
+        """
+        图像回调函数,接收图像消息并保存为OpenCV格式
+        """
+        self.latest_image = msg
+
+    def record_image(self):
+        """
+        将最新的图像保存为文件
+        """
+        if self.latest_image is not None:
+                pose = self.get_current_pose()
+                cv_image = self.cv_bridge_.imgmsg_to_cv2(self.latest_image, desired_encoding='bgr8')
+                path = f'{self.image_save_path}img_{pose.translation.x:3.2f}_{pose.translation.y:3.2f}_{pose.translation.z:3.2f}.png'
+                cv2.imwrite(
+                path,
+                cv_image)
+
+
+            
 
     def get_pose_by_xyyaw(self, x, y, yaw):
         """
@@ -121,4 +150,9 @@ def main():
             target_pose = partol.get_pose_by_xyyaw(x, y, yaw)
             partol.speech_text(f'正在导航到目标点: ({x}, {y}, {yaw})')
             partol.nav_to_pose(target_pose)
+            partol.speech_text(f'已到达目标点: ({x}, {y}, {yaw})，正在准备记录图像')
+            partol.record_image()
+            partol.speech_text(f'图像记录完成')
+
+
     rclpy.shutdown()
