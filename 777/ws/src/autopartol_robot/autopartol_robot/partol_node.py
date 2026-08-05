@@ -6,6 +6,8 @@ import rclpy.time
 from tf2_ros import TransformListener,Buffer # 坐标监听器
 from tf_transformations import euler_from_quaternion,quaternion_from_euler # 四元数转欧拉角和欧拉角转四元数
 import math # 角度转弧度
+from autopartol_interfaces.srv import SpeechText
+
 
 class PartolNode(BasicNavigator):
     def __init__(self, node_name='partol_robot'):
@@ -17,6 +19,7 @@ class PartolNode(BasicNavigator):
         self.target_points_ = self.get_parameter('target_points').value
         self.buffer_ = Buffer() # 创建坐标变换缓存对象
         self.broadcaster_ = TransformListener(self.buffer_,self) # 创建静态坐标发送器对象
+        self.speech_client_ = self.create_client(SpeechText, 'speech_text') # 创建语音服务客户端
 
     def get_pose_by_xyyaw(self, x, y, yaw):
         """
@@ -82,17 +85,40 @@ class PartolNode(BasicNavigator):
             except Exception as e:
                 self.get_logger().warn(f'未查询到坐标变换，原因:{e}')
 
+    def speech_text(self, text):
+        """
+        调用服务合成语音
+        """
+        while not self.speech_client_.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('等待语音服务端启动...')
+
+        request = SpeechText.Request()
+        request.text = text
+        future = self.speech_client_.call_async(request)
+        rclpy.spin_until_future_complete(self, future)
+        if future.result() is not None:
+            response = future.result()
+            if response.result == True:
+                self.get_logger().info(f'语音合成成功: {text}')
+            else:
+                self.get_logger().warn(f'语音合成失败: {text}')
+        else:
+            self.get_logger().error(f'语音服务调用失败')
+
+
 
 def main():
     rclpy.init()
     partol = PartolNode()
+    partol.speech_text('正在初始化位置')
     partol.init_robot_pose()
+    partol.speech_text('初始化完成')
 
     while rclpy.ok():
         points = partol.get_target_points()
         for point in points:
             x, y, yaw = point[0], point[1], point[2]
             target_pose = partol.get_pose_by_xyyaw(x, y, yaw)
+            partol.speech_text(f'正在导航到目标点: ({x}, {y}, {yaw})')
             partol.nav_to_pose(target_pose)
-    
     rclpy.shutdown()
