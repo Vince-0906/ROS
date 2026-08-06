@@ -1,0 +1,7 @@
+<library path="zshaped_motion_controller">
+    <class name="motion_control_system/ZShapedMotionController" type="motion_control_system::ZShapedMotionController" base_class_type="motion_control_system::MotionController">
+        <description>
+            Z-Shaped Motion Controller plugin for motion control system.
+        </description>
+    </class>
+</library>
