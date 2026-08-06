@@ -32,7 +32,11 @@ ament_target_dependencies(spin_motion_controller  pluginlib )
 ament_target_dependencies(linear_motion_controller  pluginlib )
 ament_target_dependencies(zshaped_motion_controller  pluginlib )
 
-
+add_executable(test_plugin src/test_plugin.cpp)
+ament_target_dependencies(test_plugin  pluginlib )
+install(TARGETS test_plugin
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 install(TARGETS spin_motion_controller linear_motion_controller zshaped_motion_controller
   ARCHIVE DESTINATION lib
