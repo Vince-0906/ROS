@@ -92,94 +92,97 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.25
-      yaw_goal_tolerance: 0.25
+      xy_goal_tolerance: 0.15
+      yaw_goal_tolerance: 0.15
     FollowPath:
-      plugin: "nav2_mppi_controller::MPPIController"
-      time_steps: 56
-      model_dt: 0.05
-      batch_size: 2000
-      ax_max: 3.0
-      ax_min: -3.0
-      ay_max: 3.0
-      ay_min: -3.0
-      az_max: 3.5
-      vx_std: 0.2
-      vy_std: 0.2
-      wz_std: 0.4
-      vx_max: 0.5
-      vx_min: -0.35
-      vy_max: 0.5
-      wz_max: 1.9
-      iteration_count: 1
-      prune_distance: 1.7
-      transform_tolerance: 0.1
-      temperature: 0.3
-      gamma: 0.015
-      motion_model: "DiffDrive"
-      visualize: true
-      regenerate_noises: true
-      TrajectoryVisualizer:
-        trajectory_step: 5
-        time_step: 3
-      AckermannConstraints:
-        min_turning_r: 0.2
-      critics: [
-        "ConstraintCritic", "CostCritic", "GoalCritic",
-        "GoalAngleCritic", "PathAlignCritic", "PathFollowCritic",
-        "PathAngleCritic", "PreferForwardCritic"]
-      ConstraintCritic:
-        enabled: true
-        cost_power: 1
-        cost_weight: 4.0
-      GoalCritic:
-        enabled: true
-        cost_power: 1
-        cost_weight: 5.0
-        threshold_to_consider: 1.4
-      GoalAngleCritic:
-        enabled: true
-        cost_power: 1
-        cost_weight: 3.0
-        threshold_to_consider: 0.5
-      PreferForwardCritic:
-        enabled: true
-        cost_power: 1
-        cost_weight: 5.0
-        threshold_to_consider: 0.5
-      CostCritic:
-        enabled: true
-        cost_power: 1
-        cost_weight: 3.81
-        near_collision_cost: 253
-        critical_cost: 300.0
-        consider_footprint: false
-        collision_cost: 1000000.0
-        near_goal_distance: 1.0
-        trajectory_point_step: 2
-      PathAlignCritic:
-        enabled: true
-        cost_power: 1
-        cost_weight: 14.0
-        max_path_occupancy_ratio: 0.05
-        trajectory_point_step: 4
-        threshold_to_consider: 0.5
-        offset_from_furthest: 20
-        use_path_orientations: false
-      PathFollowCritic:
-        enabled: true
-        cost_power: 1
-        cost_weight: 5.0
-        offset_from_furthest: 5
-        threshold_to_consider: 1.4
-      PathAngleCritic:
-        enabled: true
-        cost_power: 1
-        cost_weight: 2.0
-        offset_from_furthest: 4
-        threshold_to_consider: 0.5
-        max_angle_to_furthest: 1.0
-        mode: 0
+      plugin: "nav2_custom_controller::CustomController"
+      max_angular_speed: 1.0
+      max_linear_speed: 0.5
+      # plugin: "nav2_mppi_controller::MPPIController"
+      # time_steps: 56
+      # model_dt: 0.05
+      # batch_size: 2000
+      # ax_max: 3.0
+      # ax_min: -3.0
+      # ay_max: 3.0
+      # ay_min: -3.0
+      # az_max: 3.5
+      # vx_std: 0.2
+      # vy_std: 0.2
+      # wz_std: 0.4
+      # vx_max: 0.5
+      # vx_min: -0.35
+      # vy_max: 0.5
+      # wz_max: 1.9
+      # iteration_count: 1
+      # prune_distance: 1.7
+      # transform_tolerance: 0.1
+      # temperature: 0.3
+      # gamma: 0.015
+      # motion_model: "DiffDrive"
+      # visualize: true
+      # regenerate_noises: true
+      # TrajectoryVisualizer:
+      #   trajectory_step: 5
+      #   time_step: 3
+      # AckermannConstraints:
+      #   min_turning_r: 0.2
+      # critics: [
+      #   "ConstraintCritic", "CostCritic", "GoalCritic",
+      #   "GoalAngleCritic", "PathAlignCritic", "PathFollowCritic",
+      #   "PathAngleCritic", "PreferForwardCritic"]
+      # ConstraintCritic:
+      #   enabled: true
+      #   cost_power: 1
+      #   cost_weight: 4.0
+      # GoalCritic:
+      #   enabled: true
+      #   cost_power: 1
+      #   cost_weight: 5.0
+      #   threshold_to_consider: 1.4
+      # GoalAngleCritic:
+      #   enabled: true
+      #   cost_power: 1
+      #   cost_weight: 3.0
+      #   threshold_to_consider: 0.5
+      # PreferForwardCritic:
+      #   enabled: true
+      #   cost_power: 1
+      #   cost_weight: 5.0
+      #   threshold_to_consider: 0.5
+      # CostCritic:
+      #   enabled: true
+      #   cost_power: 1
+      #   cost_weight: 3.81
+      #   near_collision_cost: 253
+      #   critical_cost: 300.0
+      #   consider_footprint: false
+      #   collision_cost: 1000000.0
+      #   near_goal_distance: 1.0
+      #   trajectory_point_step: 2
+      # PathAlignCritic:
+      #   enabled: true
+      #   cost_power: 1
+      #   cost_weight: 14.0
+      #   max_path_occupancy_ratio: 0.05
+      #   trajectory_point_step: 4
+      #   threshold_to_consider: 0.5
+      #   offset_from_furthest: 20
+      #   use_path_orientations: false
+      # PathFollowCritic:
+      #   enabled: true
+      #   cost_power: 1
+      #   cost_weight: 5.0
+      #   offset_from_furthest: 5
+      #   threshold_to_consider: 1.4
+      # PathAngleCritic:
+      #   enabled: true
+      #   cost_power: 1
+      #   cost_weight: 2.0
+      #   offset_from_furthest: 4
+      #   threshold_to_consider: 0.5
+      #   max_angle_to_furthest: 1.0
+      #   mode: 0
       # TwirlingCritic:
       #   enabled: true
       #   twirling_cost_power: 1
@@ -196,7 +199,7 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.05
-      robot_radius: 0.22
+      robot_radius: 0.10
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
@@ -234,7 +237,7 @@ global_costmap:
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: base_link
-      robot_radius: 0.22
+      robot_radius: 0.10
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -281,30 +284,17 @@ planner_server:
     planner_plugins: ["GridBased"]
     costmap_update_timeout: 1.0
     GridBased:
-      plugin: "nav2_smac_planner::SmacPlanner2D"
-      tolerance: 0.2                  # 目标点容差（米）
-      allow_unknown: true             # 允许穿越未知区域
-      max_iterations: 1000000         # 搜索最大迭代次数
-      max_planning_time: 2.0          # 最大规划耗时（秒）
-      
-      #狭窄场景最关键参数：
-      cost_travel_multiplier: 1.0     # 默认2.0。降为1.0后，算法不再过度规避高代价区，敢穿窄门
-      use_final_approach_orientation: true # 抵达终点时是否对准终点姿态
+      plugin: "nav2_custom_planner/CustomPlanner"
+      interpolation_resolution: 0.05
 
 smoother_server:
   ros__parameters:
     smoother_plugins: ["simple_smoother"]
     simple_smoother:
-      plugin: "nav2_constrained_smoother/ConstrainedSmoother"
-#  关键参数：控制平滑权重与障碍物约束
-      w_smooth: 0.2                   # 平滑权重（不宜设太高，太高会导致严重切角）
-      w_data: 0.2                     # 保持原始路径迹象的权重
-      w_cost: 0.05                    # 远离高代价区的权重
-      
-      # 碰撞检查配置
-      path_downsampling_factor: 2
-      keep_start_orientation: true    # 保持起点姿态
-      max_smoothing_duration: 0.2     # 限制平滑计算时间
+      plugin: "nav2_smoother::SimpleSmoother"
+      tolerance: 1.0e-10
+      max_its: 1000
+      do_refinement: True
 
 behavior_server:
   ros__parameters:

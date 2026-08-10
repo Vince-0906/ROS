@@ -27,6 +27,11 @@ devel_isolated/
 *.bag
 *.pyc
 
+# PlatformIO
+.pio/
+# PlatformIO 自动生成的 VS Code 配置（含本机绝对路径）
+999/*/.vscode/
+
 # Python
 __pycache__/
 *.py[cod]
