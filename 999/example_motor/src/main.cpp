@@ -3,6 +3,40 @@
 #include <Esp32PcntEncoder.h>
 #include <PidController.h>
 #include <Kinematics.h>
+// 引入microros和wifi相关库
+#include <WiFi.h>
+#include <micro_ros_platformio.h>
+#include <rcl/rcl.h>
+#include <rclc/rclc.h>
+#include <rclc/executor.h>
+
+// 创建电机、编码器、PID控制器和运动学对象
+rcl_allocator_t allocator; // 动态内存分配器，用于在运行时分配和释放内存
+rclc_support_t support; // 用于存储时钟，内存分配器和上下文
+rclc_executor_t executor; // 用于管理和调度ROS2节点的执行器
+rcl_node_t node; // ROS2节点对象，用于与ROS2系统进行通信
+
+// 创建任务运行microros 相当于线程
+void micro_ros_task(void *arg)
+{
+    // 1.设置传输协议并延迟一段时间等待设置完成
+    IPAddress agent_ip; 
+    agent_ip.fromString("192.168.31.93"); // 设置ROS2代理的IP地址
+    set_microros_wifi_transports("SZC", "SZC030906", agent_ip, 8888); // 设置WiFi传输协议，指定设备名称、代理IP和端口号
+    delay(2000); // 延迟1秒等待设置完成
+    // 2.初始化内存分配器
+    allocator = rcl_get_default_allocator(); // 获取默认的内存分配器
+    // 3.初始化支持结构体
+    rclc_support_init(&support, 0, NULL, &allocator); // 初始化支持结构体，传入参数为命令行参数和内存分配器
+    // 4.初始化节点
+    rclc_node_init_default(&node, "szcbot_motion_control", "", &support);
+    // 5.初始化执行器
+    unsigned int num_handles = 0; // 设置执行器的句柄数量为0
+    rclc_executor_init(&executor, &support.context, num_handles, &allocator);
+    // 循环执行器
+    rclc_executor_spin(&executor); // 启动执行器，开始处理ROS2消息和事件
+}
+
 
 Esp32McpwmMotor motor; // 创建一个名为motor的对象，用于控制电机
 Esp32PcntEncoder encoders[2]; // 创建一个数组用于存储两个编码器
@@ -40,6 +74,9 @@ void setup()
     Serial.printf("目标线速度=%f,目标角速度=%f,左轮目标速度=%f,右轮目标速度=%f\n", target_linear_speed, target_angular_speed, out_left_speed, out_right_speed); 
     pid_controller[0].update_target(out_left_speed); // 设置电机0的目标速度为左轮目标速度
     pid_controller[1].update_target(out_right_speed); // 设置电机1的目标速度为右轮目标速度
+
+    // 创建microros任务
+    xTaskCreate(micro_ros_task, "micro_ros_task", 10240, NULL, 1, NULL);
 }
 
 void loop()
