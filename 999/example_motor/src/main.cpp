@@ -10,7 +10,8 @@
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
 #include <geometry_msgs/msg/twist.h> //消息接口
-
+#include <nav_msgs/msg/odometry.h> //里程计消息接口
+#include <micro_ros_utilities/string_utilities.h> //引入字符串内存分配初始化工具集
 
 // 创建电机、编码器、PID控制器和运动学对象
 rcl_allocator_t allocator; // 动态内存分配器，用于在运行时分配和释放内存
@@ -21,15 +22,40 @@ rcl_node_t node; // ROS2节点对象，用于与ROS2系统进行通信
 rcl_subscription_t sub_cmd_vel; // 创建一个订阅者对象，用于接收ROS2消息
 geometry_msgs__msg__Twist msg_cmd_vel; // 创建一个Twist消息对象，用于存储接收到的速度命令
 
+rcl_publisher_t pub_odom; // 创建一个发布者对象，用于发布里程计消息
+nav_msgs__msg__Odometry msg_odom; // 创建一个Odometry消息对象，用于存储里程计数据
+rcl_timer_t timer; // 创建一个定时器对象，用于定时发布里程计消息
+
 Esp32McpwmMotor motor; // 创建一个名为motor的对象，用于控制电机
 Esp32PcntEncoder encoders[2]; // 创建一个数组用于存储两个编码器
 PidController pid_controller[2]; // 创建一个数组用于存储两个PID控制器
 Kinematics kinematics; // 创建一个名为kinematics的对象，用于运动学计算
 
-float target_linear_speed = 50.0; // 目标线速度，单位为mm/s
-float target_angular_speed = 0.1; // 目标角速度，单位为弧度每秒
+float target_linear_speed = 0.0; // 目标线速度，单位为mm/s
+float target_angular_speed = 0.0; // 目标角速度，单位为弧度每秒
 float out_left_speed = 0.0; // 左轮输出速度，单位为mm/s
 float out_right_speed = 0.0; // 右轮输出速度，单位为mm/s
+
+void timer_callback(rcl_timer_t * timer, int64_t last_call_time) // 定时器回调函数，用于发布里程计消息
+{
+    odom_t odom = kinematics.get_odom(); // 获取当前的里程计数据
+    int64_t stamp = rmw_uros_epoch_millis(); // 获取当前的时间戳
+    msg_odom.header.stamp.sec = static_cast<int32_t>(stamp / 1000); // 设置里程计消息的秒部分
+    msg_odom.header.stamp.nanosec = static_cast<int32_t>((stamp%1000) *1e6); // 设置里程计消息的纳秒部分
+    msg_odom.pose.pose.position.x = odom.x; // 设置里程计消息的x坐标
+    msg_odom.pose.pose.position.y = odom.y; // 设置里程计消息的y坐标
+    msg_odom.pose.pose.orientation.w = cos(odom.angle *0.5); // 设置里程计消息的w方向四元数分量
+    msg_odom.pose.pose.orientation.x = 0.0; // 设置里程计消息的x方向四元数分量
+    msg_odom.pose.pose.orientation.y = 0.0; // 设置里程计消息的y方向四元数分量
+    msg_odom.pose.pose.orientation.z = sin(odom.angle *0.5); // 设置里程计消息的z方向四元数分量
+    msg_odom.twist.twist.linear.x = odom.linear_speed; // 设置里程计消息的线速度
+    msg_odom.twist.twist.angular.z = odom.angular_speed; // 设置里程计消息的角速度
+    // 发布里程计消息
+    if(rcl_publish(&pub_odom, &msg_odom, NULL) != RCL_RET_OK) // 发布里程计消息，如果发布失败则打印错误信息
+    {
+        Serial.println("ERROR: Failed to publish odom message");
+    }
+}
 
 void twist_callback(const void * msg_in) // 回调函数，用于处理接收到的Twist消息
 {
@@ -43,8 +69,6 @@ void twist_callback(const void * msg_in) // 回调函数，用于处理接收到
     Serial.printf("目标线速度=%f,目标角速度=%f,左轮目标速度=%f,右轮目标速度=%f\n", target_linear_speed, target_angular_speed, out_left_speed, out_right_speed); 
     pid_controller[0].update_target(out_left_speed); // 设置电机0的目标速度为左轮目标速度
     pid_controller[1].update_target(out_right_speed); // 设置电机1的目标速度为右轮目标速度
-    
-
 }
 
 // 创建任务运行microros 相当于线程
@@ -62,20 +86,42 @@ void micro_ros_task(void *arg)
     // 4.初始化节点
     rclc_node_init_default(&node, "szcbot_motion_control", "", &support);
     // 5.初始化执行器
-    unsigned int num_handles = 1; // 设置执行器的句柄数量为1
+    unsigned int num_handles = 2; // 设置执行器的句柄数量为2
     rclc_executor_init(&executor, &support.context, num_handles, &allocator);
-    // 6.初始化订阅者并添加到执行器
-    rclc_subscription_init_default(
+    // 6.初始化订阅者
+    rclc_subscription_init_best_effort(
         &sub_cmd_vel, // 订阅者对象
         &node, // 节点对象
         ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Twist), // 消息类型支持
-        "cmd_vel"); // 订阅的主题名称
+        "/cmd_vel"); // 订阅的主题名称
     rclc_executor_add_subscription(
         &executor, // 执行器对象
         &sub_cmd_vel, // 订阅者对象
         &msg_cmd_vel, // 消息对象
         &twist_callback, // 回调函数
         ON_NEW_DATA); // 触发条件为接收到新数据
+    // 7.初始化msg
+    msg_odom.header.frame_id = micro_ros_string_utilities_set(msg_odom.header.frame_id, "odom"); // 设置里程计消息的坐标系为"odom"
+    msg_odom.child_frame_id = micro_ros_string_utilities_set(msg_odom.child_frame_id, "base_footprint"); // 设置里程计消息的子坐标系为"base_footprint"
+    // 8.初始化发布者和定时器并添加到执行器
+    rclc_publisher_init_best_effort(
+        &pub_odom, // 发布者对象
+        &node, // 节点对象
+        ROSIDL_GET_MSG_TYPE_SUPPORT(nav_msgs, msg, Odometry), // 消息类型支持
+        "/odom"); // 发布的主题名称
+    rclc_timer_init_default(
+        &timer, // 定时器对象
+        &support, // 支持结构体
+        RCL_MS_TO_NS(50), // 定时器周期为50毫秒
+        &timer_callback); // 定时器回调函数
+    rclc_executor_add_timer(&executor, &timer); // 将定时器添加到执行器中
+    // 时间同步
+    while (!rmw_uros_epoch_synchronized())
+    {
+        rmw_uros_sync_session(1000); // 同步时间，等待时间同步完成
+        delay(10); // 延迟10毫秒
+    }
+    
     // 循环执行器
     rclc_executor_spin(&executor); // 启动执行器，开始处理ROS2消息和事件
 }
