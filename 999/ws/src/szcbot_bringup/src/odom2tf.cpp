@@ -14,14 +14,18 @@ public:
     // 创建一个tf2_ros::TransformBroadcaster用于广播坐标变换
     tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(this);
   }
-
 private:
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_subscribe_;
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
   // 回调函数，处理接收到的odom消息，并发布tf
   void odom_callback_(const nav_msgs::msg::Odometry::SharedPtr msg) {
     geometry_msgs::msg::TransformStamped transform;
-    transform.header = msg->header; // 使用消息的时间戳和框架ID
+    // transform.header = msg->header; // 使用消息的时间戳和框架ID
+    // 正确的方式：分别赋值，并使用节点当前时钟
+    // 魔法修复：增加 0.2s 的时间偏移，补偿 WiFi 延迟导致的 "Extrapolation into the future" 错误
+    transform.header.stamp = this->get_clock()->now() + rclcpp::Duration::from_seconds(0.2);
+    transform.header.frame_id = "odom"; // <-- 加上这一行！父坐标系是 "odom"
+
     transform.child_frame_id = msg->child_frame_id;
     transform.transform.translation.x = msg->pose.pose.position.x;
     transform.transform.translation.y = msg->pose.pose.position.y;

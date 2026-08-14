@@ -1,0 +1,40 @@
+slam_toolbox:
+  ros__parameters:
+    # ... 其他你需要的 slam_toolbox 参数 ...
+    
+    # 关键参数：TF 变换的超时时间（秒）
+    # 默认值非常小，比如 0.1 或 0.2。我们把它调得非常大，比如 1.0 秒
+    transform_timeout: 1.0 
+
+    
+# 强制使用 Best Effort 匹配雷达
+    scan_qos_reliability: "best_effort"
+    scan_qos_history: "keep_last"
+    scan_qos_depth: 1
+    
+    # 其他必要的基础参数（防止节点因缺少参数不工作）
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_footprint
+    scan_topic: /scan
+    mode: mapping # 异步建图模式
+
+    transform_publish_period: 0.02  # 提高 TF 发布频率 (50Hz)
+    lookup_transform_timeout: 0.5   # 查找变换的等待时间
+    map_update_interval: 0.3       # 提高地图更新频率 (0.3s 更新一次)
+
+    # --- 拯救“红黑分离”的关键参数 ---
+    # 降低匹配门槛，允许雷达和地图对得不那么准
+    link_match_minimum_response_fine: 0.1  
+    
+    # 增加搜索范围，当里程计漂移时，SLAM 会在更大的范围内寻找正确位置
+    search_window_size: 40                 # 默认可能是 10 或 20
+    correlation_search_space_dimension: 0.5 # 默认 0.3
+    correlation_search_space_resolution: 0.01
+
+    # 只要动一点点就更新，强行纠正
+    minimum_travel_distance: 0.05
+    minimum_travel_heading: 0.1
+    
+    # 增加历史数据缓冲
+    tf_buffer_duration: 30.0

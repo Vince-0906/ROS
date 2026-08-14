@@ -196,8 +196,13 @@ int main(int argc, char *argv[]) {
       auto scan_msg = std::make_shared<sensor_msgs::msg::LaserScan>();
       auto pc_msg = std::make_shared<sensor_msgs::msg::PointCloud>();
 
-      scan_msg->header.stamp.sec = RCL_NS_TO_S(scan.stamp);
-      scan_msg->header.stamp.nanosec =  scan.stamp - RCL_S_TO_NS(scan_msg->header.stamp.sec);
+      // scan_msg->header.stamp.sec = RCL_NS_TO_S(scan.stamp);
+      // scan_msg->header.stamp.nanosec =  scan.stamp - RCL_S_TO_NS(scan_msg->header.stamp.sec);
+      // 上面不是使用ros时间
+        // 关键修复：不要使用 scan.stamp！
+      // 使用当前节点的 ROS 时钟来获取正确的时间戳。
+      scan_msg->header.stamp = node->get_clock()->now();
+      
       scan_msg->header.frame_id = frame_id;
       pc_msg->header = scan_msg->header;
       scan_msg->angle_min = scan.config.min_angle;
