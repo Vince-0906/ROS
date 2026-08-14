@@ -1,0 +1,24 @@
+ydlidar_node:
+  ros__parameters:
+    port: /tmp/tty_laser # 激光雷达端口
+    frame_id: laser_link # 坐标系ID
+    ignore_array: "" # 忽略的数组
+    baudrate: 115200 # 波特率
+    lidar_type: 1 # 激光雷达类型
+    device_type: 0 # 设备类型
+    sample_rate: 3 # 采样率
+    intensity_bit: 8 # 强度位数
+    abnormal_check_count: 4 # 异常检查计数
+    fixed_resolution: false # 固定分辨率
+    reversion: true # 反转
+    inverted: true # 倒置
+    auto_reconnect: true # 自动重连
+    isSingleChannel: true # 单通道
+    intensity: true # 强度
+    support_motor_dtr: true # 支持电机DTR
+    angle_max: 180.0 # 最大角度
+    angle_min: -180.0 # 最小角度
+    range_max: 64.0 # 最大范围
+    range_min: 0.05 # 最小范围
+    frequency: 5.0 # 频率
+    invalid_range_is_inf: false # 无效范围为无穷大
