@@ -20,5 +20,5 @@ Talker::Talker(const rclcpp::NodeOptions &options) : Node("talker", options) {
 
 
 
-// #include "rclcpp_components/register_node_macro.hpp"
-// RCLCPP_COMPONENTS_REGISTER_NODE(learn_compose::Talker)
+#include "rclcpp_components/register_node_macro.hpp"
+RCLCPP_COMPONENTS_REGISTER_NODE(learn_compose::Talker)

@@ -10,17 +10,32 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
+find_package(rclcpp_components REQUIRED)
 include_directories(include)
 add_executable(intra_process_pubsub 
     src/intra_process_pubsub.cpp
     src/talker.cpp
     src/listener.cpp
 )
-ament_target_dependencies(intra_process_pubsub std_msgs rclcpp)
+ament_target_dependencies(intra_process_pubsub std_msgs rclcpp rclcpp_components)
 
 install(TARGETS intra_process_pubsub
   DESTINATION lib/${PROJECT_NAME})
 
+find_package(rclcpp_components REQUIRED)
+add_library(talker_component SHARED src/talker.cpp)
+ament_target_dependencies(talker_component "std_msgs" "rclcpp" "rclcpp_components")
+rclcpp_components_register_nodes(talker_component "learn_compose::Talker")
+
+add_library(listener_component SHARED src/listener.cpp)
+ament_target_dependencies(listener_component "std_msgs" "rclcpp" "rclcpp_components")
+rclcpp_components_register_nodes(listener_component "learn_compose::Listener")
+
+install(TARGETS talker_component listener_component
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights

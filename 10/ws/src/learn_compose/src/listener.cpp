@@ -16,5 +16,5 @@ Listener::Listener(const rclcpp::NodeOptions &options)
 } // namespace  learn_compose
 
 
-// #include "rclcpp_components/register_node_macro.hpp"
-// RCLCPP_COMPONENTS_REGISTER_NODE(learn_compose::Listener)
+#include "rclcpp_components/register_node_macro.hpp"
+RCLCPP_COMPONENTS_REGISTER_NODE(learn_compose::Listener)
