@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'staus_publisher'
+package_name = 'status_publisher'
 
 setup(
     name=package_name,
@@ -24,7 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'sys_status_pub = staus_publisher.sys_status_pub:main',
+            'sys_status_pub = status_publisher.sys_status_pub:main',
         ],
     },
 )
